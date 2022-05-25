@@ -8,11 +8,11 @@ import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
-	"helloworld/internal/biz"
-	"helloworld/internal/conf"
-	"helloworld/internal/data"
-	"helloworld/internal/server"
-	"helloworld/internal/service"
+	"realword/internal/biz"
+	"realword/internal/conf"
+	"realword/internal/data"
+	"realword/internal/server"
+	"realword/internal/service"
 )
 
 // wireApp init kratos application.
