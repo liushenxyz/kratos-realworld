@@ -1,20 +1,18 @@
 syntax = "proto3";
 
-package helloworld.v1;
+package realword.v1;
 
 import "google/api/annotations.proto";
 
-option go_package = "helloworld/api/helloworld/v1;v1";
-option java_multiple_files = true;
-option java_package = "dev.kratos.api.helloworld.v1";
-option java_outer_classname = "HelloworldProtoV1";
+option go_package = "realword/api/realword/v1;v1";
+
 
 // The greeting service definition.
-service Greeter {
+service RealWord {
   // Sends a greeting
   rpc SayHello (HelloRequest) returns (HelloReply) {
     option (google.api.http) = {
-      get: "/helloworld/{name}"
+      get: "/realword/{name}"
     };
   }
 }
