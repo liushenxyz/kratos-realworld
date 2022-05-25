@@ -1,4 +1,4 @@
-module helloworld
+module realword
 
 go 1.18
 

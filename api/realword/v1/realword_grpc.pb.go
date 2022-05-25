@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.19.4
-// source: helloworld/v1/realword.proto
+// source: realword/v1/realword.proto
 
 package v1
 
@@ -103,5 +103,5 @@ var RealWord_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "helloworld/v1/realword.proto",
+	Metadata: "realword/v1/realword.proto",
 }

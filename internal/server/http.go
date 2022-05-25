@@ -5,13 +5,13 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/go-kratos/swagger-api/openapiv2"
-	v1 "helloworld/api/helloworld/v1"
-	"helloworld/internal/conf"
-	"helloworld/internal/service"
+	v1 "realword/api/realword/v1"
+	"realword/internal/conf"
+	"realword/internal/service"
 )
 
 // NewHTTPServer new a HTTP server.
-func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, logger log.Logger) *http.Server {
+func NewHTTPServer(c *conf.Server, realword *service.RealWordService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -27,7 +27,7 @@ func NewHTTPServer(c *conf.Server, greeter *service.GreeterService, logger log.L
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	v1.RegisterGreeterHTTPServer(srv, greeter)
+	v1.RegisterRealWordHTTPServer(srv, realword)
 
 	openAPIhandler := openapiv2.NewHandler()
 	srv.HandlePrefix("/q/", openAPIhandler)
