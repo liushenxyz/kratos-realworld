@@ -4,17 +4,120 @@
 openapi: 3.0.3
 info:
     title: RealWord API
-    description: The greeting service definition.
     version: 0.0.1
 paths:
-    /realword/{name}:
+    /api/articles:
         get:
             tags:
                 - RealWord
-            description: Sends a greeting
-            operationId: RealWord_SayHello
+            operationId: RealWord_ListArticles
             parameters:
-                - name: name
+                - name: tag
+                  in: query
+                  schema:
+                    type: string
+                - name: author
+                  in: query
+                  schema:
+                    type: string
+                - name: favorited
+                  in: query
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  schema:
+                    type: integer
+                    format: int64
+                - name: offset
+                  in: query
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListArticlesReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - RealWord
+            operationId: RealWord_CreateArticle
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateArticleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateArticleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/articles/feed:
+        get:
+            tags:
+                - RealWord
+            operationId: RealWord_FeedArticles
+            parameters:
+                - name: tag
+                  in: query
+                  schema:
+                    type: string
+                - name: author
+                  in: query
+                  schema:
+                    type: string
+                - name: favorited
+                  in: query
+                  schema:
+                    type: string
+                - name: limit
+                  in: query
+                  schema:
+                    type: integer
+                    format: int64
+                - name: offset
+                  in: query
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListArticlesReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/articles/{slug}:
+        get:
+            tags:
+                - RealWord
+            operationId: RealWord_GetArticle
+            parameters:
+                - name: slug
                   in: path
                   required: true
                   schema:
@@ -25,7 +128,379 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/HelloReply'
+                                $ref: '#/components/schemas/GetArticleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - RealWord
+            operationId: RealWord_UpdateArticle
+            parameters:
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateArticleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateArticleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - RealWord
+            operationId: RealWord_DeleteArticle
+            parameters:
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteArticleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/articles/{slug}/comments:
+        get:
+            tags:
+                - RealWord
+            operationId: RealWord_GetComments
+            parameters:
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetCommentsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - RealWord
+            operationId: RealWord_AddComments
+            parameters:
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/AddCommentsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AddCommentsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/articles/{slug}/comments/{id}:
+        delete:
+            tags:
+                - RealWord
+            operationId: RealWord_DeleteComments
+            parameters:
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/DeleteCommentsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/articles/{slug}/favorite:
+        post:
+            tags:
+                - RealWord
+            operationId: RealWord_FavoriteArticle
+            parameters:
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/FavoriteArticleRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/FavoriteArticleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - RealWord
+            operationId: RealWord_UnfavoriteArticle
+            parameters:
+                - name: slug
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UnfavoriteArticleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/profiles/{username}:
+        get:
+            tags:
+                - RealWord
+            operationId: RealWord_GetProfile
+            parameters:
+                - name: username
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetProfileReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/profiles/{username}/follow:
+        post:
+            tags:
+                - RealWord
+            operationId: RealWord_FollowUser
+            parameters:
+                - name: username
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/FollowUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/FollowUserReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - RealWord
+            operationId: RealWord_UnfollowUser
+            parameters:
+                - name: username
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UnfollowUserReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/tags:
+        get:
+            tags:
+                - RealWord
+            operationId: RealWord_GetTags
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetTagsReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/user:
+        get:
+            tags:
+                - RealWord
+            operationId: RealWord_GetCurrentUser
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetCurrentUserReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        put:
+            tags:
+                - RealWord
+            operationId: RealWord_UpdateUser
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateUserRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/UpdateUserReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/users:
+        post:
+            tags:
+                - RealWord
+            operationId: RealWord_Registration
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RegistrationRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RegistrationReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /api/users/login:
+        post:
+            tags:
+                - RealWord
+            operationId: RealWord_Login
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LoginRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/LoginReply'
                 default:
                     description: Default error response
                     content:
@@ -34,6 +509,156 @@ paths:
                                 $ref: '#/components/schemas/Status'
 components:
     schemas:
+        AddCommentsReply:
+            type: object
+            properties:
+                comment:
+                    $ref: '#/components/schemas/Comment'
+        AddCommentsRequest:
+            type: object
+            properties:
+                slug:
+                    type: string
+                comment:
+                    $ref: '#/components/schemas/AddCommentsRequest_Comment'
+        AddCommentsRequest_Comment:
+            type: object
+            properties:
+                body:
+                    type: string
+        Article:
+            type: object
+            properties:
+                slug:
+                    type: string
+                title:
+                    type: string
+                description:
+                    type: string
+                body:
+                    type: string
+                tagList:
+                    type: array
+                    items:
+                        type: string
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+                favorited:
+                    type: boolean
+                favoritesCount:
+                    type: integer
+                    format: uint32
+                author:
+                    $ref: '#/components/schemas/Author'
+        Author:
+            type: object
+            properties:
+                username:
+                    type: string
+                bio:
+                    type: string
+                image:
+                    type: string
+                following:
+                    type: boolean
+        Comment:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: uint32
+                createdAt:
+                    type: string
+                    format: date-time
+                updatedAt:
+                    type: string
+                    format: date-time
+                body:
+                    type: string
+                author:
+                    $ref: '#/components/schemas/Author'
+        CreateArticleReply:
+            type: object
+            properties:
+                article:
+                    $ref: '#/components/schemas/Article'
+        CreateArticleRequest:
+            type: object
+            properties:
+                article:
+                    $ref: '#/components/schemas/CreateArticleRequest_Article'
+        CreateArticleRequest_Article:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                body:
+                    type: string
+                tagList:
+                    type: array
+                    items:
+                        type: string
+        DeleteArticleReply:
+            type: object
+            properties: {}
+        DeleteCommentsReply:
+            type: object
+            properties: {}
+        FavoriteArticleReply:
+            type: object
+            properties:
+                article:
+                    $ref: '#/components/schemas/Article'
+        FavoriteArticleRequest:
+            type: object
+            properties:
+                slug:
+                    type: string
+        FollowUserReply:
+            type: object
+            properties:
+                profile:
+                    $ref: '#/components/schemas/Profile'
+        FollowUserRequest:
+            type: object
+            properties:
+                username:
+                    type: string
+        GetArticleReply:
+            type: object
+            properties:
+                article:
+                    $ref: '#/components/schemas/Article'
+        GetCommentsReply:
+            type: object
+            properties:
+                comments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Comment'
+        GetCurrentUserReply:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/User'
+        GetProfileReply:
+            type: object
+            properties:
+                profile:
+                    $ref: '#/components/schemas/Profile'
+        GetTagsReply:
+            type: object
+            properties:
+                tags:
+                    type: array
+                    items:
+                        type: string
         GoogleProtobufAny:
             type: object
             properties:
@@ -42,12 +667,68 @@ components:
                     description: The type of the serialized message.
             additionalProperties: true
             description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
-        HelloReply:
+        ListArticlesReply:
             type: object
             properties:
-                message:
+                articles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Article'
+                articlesCount:
+                    type: integer
+                    format: uint32
+        LoginReply:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/User'
+        LoginRequest:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/LoginRequest_User'
+        LoginRequest_User:
+            type: object
+            properties:
+                email:
                     type: string
-            description: The response message containing the greetings
+                password:
+                    type: string
+        Profile:
+            type: object
+            properties:
+                profile:
+                    $ref: '#/components/schemas/Profile_Profile'
+        Profile_Profile:
+            type: object
+            properties:
+                username:
+                    type: string
+                bio:
+                    type: string
+                image:
+                    type: string
+                following:
+                    type: boolean
+        RegistrationReply:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/User'
+        RegistrationRequest:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/RegistrationRequest_User'
+        RegistrationRequest_User:
+            type: object
+            properties:
+                username:
+                    type: string
+                email:
+                    type: string
+                password:
+                    type: string
         Status:
             type: object
             properties:
@@ -64,5 +745,77 @@ components:
                         $ref: '#/components/schemas/GoogleProtobufAny'
                     description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
             description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        UnfavoriteArticleReply:
+            type: object
+            properties:
+                article:
+                    $ref: '#/components/schemas/Article'
+        UnfollowUserReply:
+            type: object
+            properties:
+                profile:
+                    $ref: '#/components/schemas/Profile'
+        UpdateArticleReply:
+            type: object
+            properties:
+                article:
+                    $ref: '#/components/schemas/Article'
+        UpdateArticleRequest:
+            type: object
+            properties:
+                slug:
+                    type: string
+                article:
+                    $ref: '#/components/schemas/UpdateArticleRequest_Article'
+        UpdateArticleRequest_Article:
+            type: object
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                body:
+                    type: string
+                tagList:
+                    type: array
+                    items:
+                        type: string
+        UpdateUserReply:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/User'
+        UpdateUserRequest:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/UpdateUserRequest_User'
+        UpdateUserRequest_User:
+            type: object
+            properties:
+                email:
+                    type: string
+                bio:
+                    type: string
+                image:
+                    type: string
+        User:
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/User_User'
+        User_User:
+            type: object
+            properties:
+                email:
+                    type: string
+                token:
+                    type: string
+                username:
+                    type: string
+                bio:
+                    type: string
+                image:
+                    $ref: '#/components/schemas/GoogleProtobufAny'
 tags:
     - name: RealWord
