@@ -32,7 +32,7 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	commentRepo := data.NewCommentRepo(dataData, logger)
 	tagRepo := data.NewTagRepo(dataData, logger)
 	articleUsecase := biz.NewArticleUsecase(articleRepo, commentRepo, tagRepo, logger)
-	realWordService := service.NewRealWordService(userUsecase, articleUsecase)
+	realWordService := service.NewRealWordService(userUsecase, articleUsecase, logger)
 	httpServer := server.NewHTTPServer(confServer, realWordService, logger)
 	grpcServer := server.NewGRPCServer(confServer, realWordService, logger)
 	app := newApp(logger, httpServer, grpcServer)

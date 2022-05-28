@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-
 	"github.com/go-kratos/kratos/v2/log"
 	"realword/internal/biz"
 )
@@ -12,9 +11,44 @@ type userRepo struct {
 	log  *log.Helper
 }
 
+func (r *userRepo) CreateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (r *userRepo) UpdateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*biz.User, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (r *userRepo) VerifyPassword(ctx context.Context, user *biz.User) (bool, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
 type profileRepo struct {
 	data *Data
 	log  *log.Helper
+}
+
+func (p profileRepo) GetProfileByUsername(ctx context.Context, username string) (*biz.Profile, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p profileRepo) FollowUserByUsername(ctx context.Context, username string) (*biz.Profile, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (p profileRepo) UnfollowUserByUsername(ctx context.Context, username string) (*biz.Profile, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func NewUserRepo(data *Data, logger log.Logger) biz.UserRepo {
@@ -29,24 +63,4 @@ func NewProfileRepo(data *Data, logger log.Logger) biz.ProfileRepo {
 		data: data,
 		log:  log.NewHelper(logger),
 	}
-}
-
-func (r *userRepo) Save(ctx context.Context, g *biz.User) (*biz.User, error) {
-	return g, nil
-}
-
-func (r *userRepo) Update(ctx context.Context, g *biz.User) (*biz.User, error) {
-	return g, nil
-}
-
-func (r *userRepo) FindByID(context.Context, int64) (*biz.User, error) {
-	return nil, nil
-}
-
-func (r *userRepo) ListByHello(context.Context, string) ([]*biz.User, error) {
-	return nil, nil
-}
-
-func (r *userRepo) ListAll(context.Context) ([]*biz.User, error) {
-	return nil, nil
 }

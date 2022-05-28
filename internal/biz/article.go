@@ -8,13 +8,30 @@ import (
 type Article struct {
 }
 
+type Comment struct {
+}
+
+type Tag struct {
+}
+
 type ArticleRepo interface {
+	ListArticle(ctx context.Context) ([]*Article, error)
+	CreateArticle(ctx context.Context, article *Article) (*Article, error)
+	UpdateArticleBySlug(ctx context.Context, slug string, article *Article) (*Article, error)
+	DeleteArticleBySlug(ctx context.Context, slug string) error
+	GetArticleBySlug(ctx context.Context, slug string) (*Article, error)
+	FavoriteArticle(ctx context.Context, slug string) (*Article, error)
+	UnfavoriteArticle(ctx context.Context, slug string) (*Article, error)
 }
 
 type CommentRepo interface {
+	CreateComment(ctx context.Context, comment *Comment) (*Comment, error)
+	DeleteComment(ctx context.Context, slug string, id int64) error
+	GetCommentByArticle(ctx context.Context, article *Article) ([]*Comment, error)
 }
 
 type TagRepo interface {
+	ListTag(ctx context.Context) ([]*Tag, error)
 }
 
 type ArticleUsecase struct {
