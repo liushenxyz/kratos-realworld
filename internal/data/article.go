@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/go-kratos/kratos/v2/log"
-	"realword/internal/biz"
+	"realworld/internal/biz"
 )
 
 type articleRepo struct {

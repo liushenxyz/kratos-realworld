@@ -1,15 +1,15 @@
 syntax = "proto3";
 
-package realword.v1;
+package realworld.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";
 
-option go_package = "realword/api/realword/v1;v1";
+option go_package = "realworld/api/realworld/v1;v1";
 
 
-service RealWord {
+service RealWorld {
   rpc Login (LoginRequest) returns (LoginReply) {
     option (google.api.http) = {
       post: "/api/users/login",

@@ -1,8 +1,8 @@
 package data
 
 import (
-	"realword/internal/conf"
-	"realword/internal/data/model"
+	"realworld/internal/conf"
+	"realworld/internal/data/model"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"

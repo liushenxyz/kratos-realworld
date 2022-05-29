@@ -5,9 +5,9 @@ import (
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	"gorm.io/gorm"
-	"realword/internal/biz"
-	"realword/internal/data/model"
-	"realword/internal/pkg/util"
+	"realworld/internal/biz"
+	"realworld/internal/data/model"
+	"realworld/internal/pkg/util"
 )
 
 type userRepo struct {

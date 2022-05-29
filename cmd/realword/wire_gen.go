@@ -9,17 +9,17 @@ package main
 import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"realword/internal/biz"
-	"realword/internal/conf"
-	"realword/internal/data"
-	"realword/internal/server"
-	"realword/internal/service"
+	"realworld/internal/biz"
+	"realworld/internal/conf"
+	"realworld/internal/data"
+	"realworld/internal/server"
+	"realworld/internal/service"
 )
 
 // Injectors from wire.go:
 
 // wireApp init kratos application.
-func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
+func wireApp(confServer *conf.Server, confAuth *conf.Auth, confData *conf.Data, logger log.Logger) (*kratos.App, func(), error) {
 	db := data.NewDB(confData)
 	dataData, cleanup, err := data.NewData(confData, logger, db)
 	if err != nil {
@@ -27,14 +27,14 @@ func wireApp(confServer *conf.Server, confData *conf.Data, logger log.Logger) (*
 	}
 	userRepo := data.NewUserRepo(dataData, logger)
 	profileRepo := data.NewProfileRepo(dataData, logger)
-	userUsecase := biz.NewUserUsecase(userRepo, profileRepo, logger)
+	userUsecase := biz.NewUserUsecase(userRepo, profileRepo, confAuth, logger)
 	articleRepo := data.NewArticleRepo(dataData, logger)
 	commentRepo := data.NewCommentRepo(dataData, logger)
 	tagRepo := data.NewTagRepo(dataData, logger)
 	articleUsecase := biz.NewArticleUsecase(articleRepo, commentRepo, tagRepo, logger)
-	realWordService := service.NewRealWordService(userUsecase, articleUsecase, logger)
-	httpServer := server.NewHTTPServer(confServer, realWordService, logger)
-	grpcServer := server.NewGRPCServer(confServer, realWordService, logger)
+	realWorldService := service.NewRealWorldService(userUsecase, articleUsecase, logger)
+	httpServer := server.NewHTTPServer(confServer, confAuth, realWorldService, logger)
+	grpcServer := server.NewGRPCServer(confServer, realWorldService, logger)
 	app := newApp(logger, httpServer, grpcServer)
 	return app, func() {
 		cleanup()

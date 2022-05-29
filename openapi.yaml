@@ -3,14 +3,14 @@
 
 openapi: 3.0.3
 info:
-    title: RealWord API
+    title: RealWorld API
     version: 0.0.1
 paths:
     /api/articles:
         get:
             tags:
-                - RealWord
-            operationId: RealWord_ListArticles
+                - RealWorld
+            operationId: RealWorld_ListArticles
             parameters:
                 - name: tag
                   in: query
@@ -49,8 +49,8 @@ paths:
                                 $ref: '#/components/schemas/Status'
         post:
             tags:
-                - RealWord
-            operationId: RealWord_CreateArticle
+                - RealWorld
+            operationId: RealWorld_CreateArticle
             requestBody:
                 content:
                     application/json:
@@ -73,8 +73,8 @@ paths:
     /api/articles/feed:
         get:
             tags:
-                - RealWord
-            operationId: RealWord_FeedArticles
+                - RealWorld
+            operationId: RealWorld_FeedArticles
             parameters:
                 - name: tag
                   in: query
@@ -114,8 +114,8 @@ paths:
     /api/articles/{slug}:
         get:
             tags:
-                - RealWord
-            operationId: RealWord_GetArticle
+                - RealWorld
+            operationId: RealWorld_GetArticle
             parameters:
                 - name: slug
                   in: path
@@ -137,8 +137,8 @@ paths:
                                 $ref: '#/components/schemas/Status'
         put:
             tags:
-                - RealWord
-            operationId: RealWord_UpdateArticle
+                - RealWorld
+            operationId: RealWorld_UpdateArticle
             parameters:
                 - name: slug
                   in: path
@@ -166,8 +166,8 @@ paths:
                                 $ref: '#/components/schemas/Status'
         delete:
             tags:
-                - RealWord
-            operationId: RealWord_DeleteArticle
+                - RealWorld
+            operationId: RealWorld_DeleteArticle
             parameters:
                 - name: slug
                   in: path
@@ -190,8 +190,8 @@ paths:
     /api/articles/{slug}/comments:
         get:
             tags:
-                - RealWord
-            operationId: RealWord_GetComments
+                - RealWorld
+            operationId: RealWorld_GetComments
             parameters:
                 - name: slug
                   in: path
@@ -213,8 +213,8 @@ paths:
                                 $ref: '#/components/schemas/Status'
         post:
             tags:
-                - RealWord
-            operationId: RealWord_AddComments
+                - RealWorld
+            operationId: RealWorld_AddComments
             parameters:
                 - name: slug
                   in: path
@@ -243,8 +243,8 @@ paths:
     /api/articles/{slug}/comments/{id}:
         delete:
             tags:
-                - RealWord
-            operationId: RealWord_DeleteComments
+                - RealWorld
+            operationId: RealWorld_DeleteComments
             parameters:
                 - name: slug
                   in: path
@@ -273,8 +273,8 @@ paths:
     /api/articles/{slug}/favorite:
         post:
             tags:
-                - RealWord
-            operationId: RealWord_FavoriteArticle
+                - RealWorld
+            operationId: RealWorld_FavoriteArticle
             parameters:
                 - name: slug
                   in: path
@@ -302,8 +302,8 @@ paths:
                                 $ref: '#/components/schemas/Status'
         delete:
             tags:
-                - RealWord
-            operationId: RealWord_UnfavoriteArticle
+                - RealWorld
+            operationId: RealWorld_UnfavoriteArticle
             parameters:
                 - name: slug
                   in: path
@@ -326,8 +326,8 @@ paths:
     /api/profiles/{username}:
         get:
             tags:
-                - RealWord
-            operationId: RealWord_GetProfile
+                - RealWorld
+            operationId: RealWorld_GetProfile
             parameters:
                 - name: username
                   in: path
@@ -350,8 +350,8 @@ paths:
     /api/profiles/{username}/follow:
         post:
             tags:
-                - RealWord
-            operationId: RealWord_FollowUser
+                - RealWorld
+            operationId: RealWorld_FollowUser
             parameters:
                 - name: username
                   in: path
@@ -379,8 +379,8 @@ paths:
                                 $ref: '#/components/schemas/Status'
         delete:
             tags:
-                - RealWord
-            operationId: RealWord_UnfollowUser
+                - RealWorld
+            operationId: RealWorld_UnfollowUser
             parameters:
                 - name: username
                   in: path
@@ -403,8 +403,8 @@ paths:
     /api/tags:
         get:
             tags:
-                - RealWord
-            operationId: RealWord_GetTags
+                - RealWorld
+            operationId: RealWorld_GetTags
             responses:
                 "200":
                     description: OK
@@ -421,8 +421,8 @@ paths:
     /api/user:
         get:
             tags:
-                - RealWord
-            operationId: RealWord_GetCurrentUser
+                - RealWorld
+            operationId: RealWorld_GetCurrentUser
             responses:
                 "200":
                     description: OK
@@ -438,8 +438,8 @@ paths:
                                 $ref: '#/components/schemas/Status'
         put:
             tags:
-                - RealWord
-            operationId: RealWord_UpdateUser
+                - RealWorld
+            operationId: RealWorld_UpdateUser
             requestBody:
                 content:
                     application/json:
@@ -462,8 +462,8 @@ paths:
     /api/users:
         post:
             tags:
-                - RealWord
-            operationId: RealWord_Registration
+                - RealWorld
+            operationId: RealWorld_Registration
             requestBody:
                 content:
                     application/json:
@@ -486,8 +486,8 @@ paths:
     /api/users/login:
         post:
             tags:
-                - RealWord
-            operationId: RealWord_Login
+                - RealWorld
+            operationId: RealWorld_Login
             requestBody:
                 content:
                     application/json:
@@ -818,4 +818,4 @@ components:
                 image:
                     $ref: '#/components/schemas/GoogleProtobufAny'
 tags:
-    - name: RealWord
+    - name: RealWorld

@@ -5,6 +5,8 @@ import (
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	"google.golang.org/protobuf/types/known/anypb"
+	"realworld/internal/conf"
+	"realworld/internal/pkg/middleware/auth"
 )
 
 type User struct {
@@ -34,13 +36,14 @@ type ProfileRepo interface {
 }
 
 type UserUsecase struct {
-	ur  UserRepo
-	pr  ProfileRepo
-	log *log.Helper
+	ur       UserRepo
+	pr       ProfileRepo
+	confAuth *conf.Auth
+	log      *log.Helper
 }
 
-func NewUserUsecase(ur UserRepo, pr ProfileRepo, logger log.Logger) *UserUsecase {
-	return &UserUsecase{ur: ur, pr: pr, log: log.NewHelper(logger)}
+func NewUserUsecase(ur UserRepo, pr ProfileRepo, confAuth *conf.Auth, logger log.Logger) *UserUsecase {
+	return &UserUsecase{ur: ur, pr: pr, confAuth: confAuth, log: log.NewHelper(logger)}
 }
 
 func (uc *UserUsecase) Login(ctx context.Context, email, password string) (*User, error) {
@@ -51,7 +54,18 @@ func (uc *UserUsecase) Login(ctx context.Context, email, password string) (*User
 	if !uc.ur.VerifyPassword(password, u.PasswordHash) {
 		return nil, errors.Unauthorized("user", "login failed")
 	}
-	return u, nil
+
+	token, err := auth.CreateTokenString(uc.confAuth.Secret, u.Username)
+	if err != nil {
+		return nil, err
+	}
+	return &User{
+		Email:    u.Email,
+		Username: u.Username,
+		Bio:      u.Bio,
+		Image:    u.Image,
+		Token:    token,
+	}, nil
 }
 
 func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, password string) (*User, error) {

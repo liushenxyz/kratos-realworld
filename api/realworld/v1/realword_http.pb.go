@@ -17,7 +17,7 @@ var _ = binding.EncodeURL
 
 const _ = http.SupportPackageIsVersion1
 
-type RealWordHTTPServer interface {
+type RealWorldHTTPServer interface {
 	AddComments(context.Context, *AddCommentsRequest) (*AddCommentsReply, error)
 	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
 	DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleReply, error)
@@ -39,36 +39,36 @@ type RealWordHTTPServer interface {
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserReply, error)
 }
 
-func RegisterRealWordHTTPServer(s *http.Server, srv RealWordHTTPServer) {
+func RegisterRealWorldHTTPServer(s *http.Server, srv RealWorldHTTPServer) {
 	r := s.Route("/")
-	r.POST("/api/users/login", _RealWord_Login0_HTTP_Handler(srv))
-	r.POST("/api/users", _RealWord_Registration0_HTTP_Handler(srv))
-	r.GET("/api/user", _RealWord_GetCurrentUser0_HTTP_Handler(srv))
-	r.PUT("/api/user", _RealWord_UpdateUser0_HTTP_Handler(srv))
-	r.GET("/api/profiles/{username}", _RealWord_GetProfile0_HTTP_Handler(srv))
-	r.POST("/api/profiles/{username}/follow", _RealWord_FollowUser0_HTTP_Handler(srv))
-	r.DELETE("/api/profiles/{username}/follow", _RealWord_UnfollowUser0_HTTP_Handler(srv))
-	r.GET("/api/articles", _RealWord_ListArticles0_HTTP_Handler(srv))
-	r.GET("/api/articles/feed", _RealWord_FeedArticles0_HTTP_Handler(srv))
-	r.GET("/api/articles/{slug}", _RealWord_GetArticle0_HTTP_Handler(srv))
-	r.POST("/api/articles", _RealWord_CreateArticle0_HTTP_Handler(srv))
-	r.PUT("/api/articles/{slug}", _RealWord_UpdateArticle0_HTTP_Handler(srv))
-	r.DELETE("/api/articles/{slug}", _RealWord_DeleteArticle0_HTTP_Handler(srv))
-	r.POST("/api/articles/{slug}/comments", _RealWord_AddComments0_HTTP_Handler(srv))
-	r.GET("/api/articles/{slug}/comments", _RealWord_GetComments0_HTTP_Handler(srv))
-	r.DELETE("/api/articles/{slug}/comments/{id}", _RealWord_DeleteComments0_HTTP_Handler(srv))
-	r.POST("/api/articles/{slug}/favorite", _RealWord_FavoriteArticle0_HTTP_Handler(srv))
-	r.DELETE("/api/articles/{slug}/favorite", _RealWord_UnfavoriteArticle0_HTTP_Handler(srv))
-	r.GET("/api/tags", _RealWord_GetTags0_HTTP_Handler(srv))
+	r.POST("/api/users/login", _RealWorld_Login0_HTTP_Handler(srv))
+	r.POST("/api/users", _RealWorld_Registration0_HTTP_Handler(srv))
+	r.GET("/api/user", _RealWorld_GetCurrentUser0_HTTP_Handler(srv))
+	r.PUT("/api/user", _RealWorld_UpdateUser0_HTTP_Handler(srv))
+	r.GET("/api/profiles/{username}", _RealWorld_GetProfile0_HTTP_Handler(srv))
+	r.POST("/api/profiles/{username}/follow", _RealWorld_FollowUser0_HTTP_Handler(srv))
+	r.DELETE("/api/profiles/{username}/follow", _RealWorld_UnfollowUser0_HTTP_Handler(srv))
+	r.GET("/api/articles", _RealWorld_ListArticles0_HTTP_Handler(srv))
+	r.GET("/api/articles/feed", _RealWorld_FeedArticles0_HTTP_Handler(srv))
+	r.GET("/api/articles/{slug}", _RealWorld_GetArticle0_HTTP_Handler(srv))
+	r.POST("/api/articles", _RealWorld_CreateArticle0_HTTP_Handler(srv))
+	r.PUT("/api/articles/{slug}", _RealWorld_UpdateArticle0_HTTP_Handler(srv))
+	r.DELETE("/api/articles/{slug}", _RealWorld_DeleteArticle0_HTTP_Handler(srv))
+	r.POST("/api/articles/{slug}/comments", _RealWorld_AddComments0_HTTP_Handler(srv))
+	r.GET("/api/articles/{slug}/comments", _RealWorld_GetComments0_HTTP_Handler(srv))
+	r.DELETE("/api/articles/{slug}/comments/{id}", _RealWorld_DeleteComments0_HTTP_Handler(srv))
+	r.POST("/api/articles/{slug}/favorite", _RealWorld_FavoriteArticle0_HTTP_Handler(srv))
+	r.DELETE("/api/articles/{slug}/favorite", _RealWorld_UnfavoriteArticle0_HTTP_Handler(srv))
+	r.GET("/api/tags", _RealWorld_GetTags0_HTTP_Handler(srv))
 }
 
-func _RealWord_Login0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_Login0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in LoginRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/Login")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/Login")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.Login(ctx, req.(*LoginRequest))
 		})
@@ -81,13 +81,13 @@ func _RealWord_Login0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context
 	}
 }
 
-func _RealWord_Registration0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_Registration0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in RegistrationRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/Registration")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/Registration")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.Registration(ctx, req.(*RegistrationRequest))
 		})
@@ -100,13 +100,13 @@ func _RealWord_Registration0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.
 	}
 }
 
-func _RealWord_GetCurrentUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_GetCurrentUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetCurrentUserRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/GetCurrentUser")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/GetCurrentUser")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.GetCurrentUser(ctx, req.(*GetCurrentUserRequest))
 		})
@@ -119,13 +119,13 @@ func _RealWord_GetCurrentUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx htt
 	}
 }
 
-func _RealWord_UpdateUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_UpdateUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in UpdateUserRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/UpdateUser")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/UpdateUser")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.UpdateUser(ctx, req.(*UpdateUserRequest))
 		})
@@ -138,7 +138,7 @@ func _RealWord_UpdateUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Co
 	}
 }
 
-func _RealWord_GetProfile0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_GetProfile0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetProfileRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -147,7 +147,7 @@ func _RealWord_GetProfile0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Co
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/GetProfile")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/GetProfile")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.GetProfile(ctx, req.(*GetProfileRequest))
 		})
@@ -160,7 +160,7 @@ func _RealWord_GetProfile0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Co
 	}
 }
 
-func _RealWord_FollowUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_FollowUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in FollowUserRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -169,7 +169,7 @@ func _RealWord_FollowUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Co
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/FollowUser")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/FollowUser")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.FollowUser(ctx, req.(*FollowUserRequest))
 		})
@@ -182,7 +182,7 @@ func _RealWord_FollowUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Co
 	}
 }
 
-func _RealWord_UnfollowUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_UnfollowUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in UnfollowUserRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -191,7 +191,7 @@ func _RealWord_UnfollowUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/UnfollowUser")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/UnfollowUser")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.UnfollowUser(ctx, req.(*UnfollowUserRequest))
 		})
@@ -204,13 +204,13 @@ func _RealWord_UnfollowUser0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.
 	}
 }
 
-func _RealWord_ListArticles0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_ListArticles0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListArticlesRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/ListArticles")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/ListArticles")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.ListArticles(ctx, req.(*ListArticlesRequest))
 		})
@@ -223,13 +223,13 @@ func _RealWord_ListArticles0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.
 	}
 }
 
-func _RealWord_FeedArticles0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_FeedArticles0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in ListArticlesRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/FeedArticles")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/FeedArticles")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.FeedArticles(ctx, req.(*ListArticlesRequest))
 		})
@@ -242,7 +242,7 @@ func _RealWord_FeedArticles0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.
 	}
 }
 
-func _RealWord_GetArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_GetArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetArticleRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -251,7 +251,7 @@ func _RealWord_GetArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Co
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/GetArticle")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/GetArticle")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.GetArticle(ctx, req.(*GetArticleRequest))
 		})
@@ -264,13 +264,13 @@ func _RealWord_GetArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Co
 	}
 }
 
-func _RealWord_CreateArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_CreateArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in CreateArticleRequest
 		if err := ctx.Bind(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/CreateArticle")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/CreateArticle")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.CreateArticle(ctx, req.(*CreateArticleRequest))
 		})
@@ -283,7 +283,7 @@ func _RealWord_CreateArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http
 	}
 }
 
-func _RealWord_UpdateArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_UpdateArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in UpdateArticleRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -292,7 +292,7 @@ func _RealWord_UpdateArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/UpdateArticle")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/UpdateArticle")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.UpdateArticle(ctx, req.(*UpdateArticleRequest))
 		})
@@ -305,7 +305,7 @@ func _RealWord_UpdateArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http
 	}
 }
 
-func _RealWord_DeleteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_DeleteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in DeleteArticleRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -314,7 +314,7 @@ func _RealWord_DeleteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/DeleteArticle")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/DeleteArticle")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.DeleteArticle(ctx, req.(*DeleteArticleRequest))
 		})
@@ -327,7 +327,7 @@ func _RealWord_DeleteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http
 	}
 }
 
-func _RealWord_AddComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_AddComments0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in AddCommentsRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -336,7 +336,7 @@ func _RealWord_AddComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.C
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/AddComments")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/AddComments")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.AddComments(ctx, req.(*AddCommentsRequest))
 		})
@@ -349,7 +349,7 @@ func _RealWord_AddComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.C
 	}
 }
 
-func _RealWord_GetComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_GetComments0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetCommentsRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -358,7 +358,7 @@ func _RealWord_GetComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.C
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/GetComments")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/GetComments")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.GetComments(ctx, req.(*GetCommentsRequest))
 		})
@@ -371,7 +371,7 @@ func _RealWord_GetComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.C
 	}
 }
 
-func _RealWord_DeleteComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_DeleteComments0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in DeleteCommentsRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -380,7 +380,7 @@ func _RealWord_DeleteComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx htt
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/DeleteComments")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/DeleteComments")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.DeleteComments(ctx, req.(*DeleteCommentsRequest))
 		})
@@ -393,7 +393,7 @@ func _RealWord_DeleteComments0_HTTP_Handler(srv RealWordHTTPServer) func(ctx htt
 	}
 }
 
-func _RealWord_FavoriteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_FavoriteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in FavoriteArticleRequest
 		if err := ctx.Bind(&in); err != nil {
@@ -402,7 +402,7 @@ func _RealWord_FavoriteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx ht
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/FavoriteArticle")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/FavoriteArticle")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.FavoriteArticle(ctx, req.(*FavoriteArticleRequest))
 		})
@@ -415,7 +415,7 @@ func _RealWord_FavoriteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx ht
 	}
 }
 
-func _RealWord_UnfavoriteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_UnfavoriteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in UnfavoriteArticleRequest
 		if err := ctx.BindQuery(&in); err != nil {
@@ -424,7 +424,7 @@ func _RealWord_UnfavoriteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx 
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/UnfavoriteArticle")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/UnfavoriteArticle")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.UnfavoriteArticle(ctx, req.(*UnfavoriteArticleRequest))
 		})
@@ -437,13 +437,13 @@ func _RealWord_UnfavoriteArticle0_HTTP_Handler(srv RealWordHTTPServer) func(ctx 
 	}
 }
 
-func _RealWord_GetTags0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Context) error {
+func _RealWorld_GetTags0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
 		var in GetTagsRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realword.v1.RealWord/GetTags")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/GetTags")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
 			return srv.GetTags(ctx, req.(*GetTagsRequest))
 		})
@@ -456,7 +456,7 @@ func _RealWord_GetTags0_HTTP_Handler(srv RealWordHTTPServer) func(ctx http.Conte
 	}
 }
 
-type RealWordHTTPClient interface {
+type RealWorldHTTPClient interface {
 	AddComments(ctx context.Context, req *AddCommentsRequest, opts ...http.CallOption) (rsp *AddCommentsReply, err error)
 	CreateArticle(ctx context.Context, req *CreateArticleRequest, opts ...http.CallOption) (rsp *CreateArticleReply, err error)
 	DeleteArticle(ctx context.Context, req *DeleteArticleRequest, opts ...http.CallOption) (rsp *DeleteArticleReply, err error)
@@ -478,19 +478,19 @@ type RealWordHTTPClient interface {
 	UpdateUser(ctx context.Context, req *UpdateUserRequest, opts ...http.CallOption) (rsp *UpdateUserReply, err error)
 }
 
-type RealWordHTTPClientImpl struct {
+type RealWorldHTTPClientImpl struct {
 	cc *http.Client
 }
 
-func NewRealWordHTTPClient(client *http.Client) RealWordHTTPClient {
-	return &RealWordHTTPClientImpl{client}
+func NewRealWorldHTTPClient(client *http.Client) RealWorldHTTPClient {
+	return &RealWorldHTTPClientImpl{client}
 }
 
-func (c *RealWordHTTPClientImpl) AddComments(ctx context.Context, in *AddCommentsRequest, opts ...http.CallOption) (*AddCommentsReply, error) {
+func (c *RealWorldHTTPClientImpl) AddComments(ctx context.Context, in *AddCommentsRequest, opts ...http.CallOption) (*AddCommentsReply, error) {
 	var out AddCommentsReply
 	pattern := "/api/articles/{slug}/comments"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/AddComments"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/AddComments"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -499,11 +499,11 @@ func (c *RealWordHTTPClientImpl) AddComments(ctx context.Context, in *AddComment
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...http.CallOption) (*CreateArticleReply, error) {
+func (c *RealWorldHTTPClientImpl) CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...http.CallOption) (*CreateArticleReply, error) {
 	var out CreateArticleReply
 	pattern := "/api/articles"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/CreateArticle"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/CreateArticle"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -512,11 +512,11 @@ func (c *RealWordHTTPClientImpl) CreateArticle(ctx context.Context, in *CreateAr
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...http.CallOption) (*DeleteArticleReply, error) {
+func (c *RealWorldHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...http.CallOption) (*DeleteArticleReply, error) {
 	var out DeleteArticleReply
 	pattern := "/api/articles/{slug}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/DeleteArticle"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/DeleteArticle"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -525,11 +525,11 @@ func (c *RealWordHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteAr
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...http.CallOption) (*DeleteCommentsReply, error) {
+func (c *RealWorldHTTPClientImpl) DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...http.CallOption) (*DeleteCommentsReply, error) {
 	var out DeleteCommentsReply
 	pattern := "/api/articles/{slug}/comments/{id}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/DeleteComments"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/DeleteComments"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -538,11 +538,11 @@ func (c *RealWordHTTPClientImpl) DeleteComments(ctx context.Context, in *DeleteC
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) FavoriteArticle(ctx context.Context, in *FavoriteArticleRequest, opts ...http.CallOption) (*FavoriteArticleReply, error) {
+func (c *RealWorldHTTPClientImpl) FavoriteArticle(ctx context.Context, in *FavoriteArticleRequest, opts ...http.CallOption) (*FavoriteArticleReply, error) {
 	var out FavoriteArticleReply
 	pattern := "/api/articles/{slug}/favorite"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/FavoriteArticle"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/FavoriteArticle"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -551,11 +551,11 @@ func (c *RealWordHTTPClientImpl) FavoriteArticle(ctx context.Context, in *Favori
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) FeedArticles(ctx context.Context, in *ListArticlesRequest, opts ...http.CallOption) (*ListArticlesReply, error) {
+func (c *RealWorldHTTPClientImpl) FeedArticles(ctx context.Context, in *ListArticlesRequest, opts ...http.CallOption) (*ListArticlesReply, error) {
 	var out ListArticlesReply
 	pattern := "/api/articles/feed"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/FeedArticles"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/FeedArticles"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -564,11 +564,11 @@ func (c *RealWordHTTPClientImpl) FeedArticles(ctx context.Context, in *ListArtic
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) FollowUser(ctx context.Context, in *FollowUserRequest, opts ...http.CallOption) (*FollowUserReply, error) {
+func (c *RealWorldHTTPClientImpl) FollowUser(ctx context.Context, in *FollowUserRequest, opts ...http.CallOption) (*FollowUserReply, error) {
 	var out FollowUserReply
 	pattern := "/api/profiles/{username}/follow"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/FollowUser"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/FollowUser"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -577,11 +577,11 @@ func (c *RealWordHTTPClientImpl) FollowUser(ctx context.Context, in *FollowUserR
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) GetArticle(ctx context.Context, in *GetArticleRequest, opts ...http.CallOption) (*GetArticleReply, error) {
+func (c *RealWorldHTTPClientImpl) GetArticle(ctx context.Context, in *GetArticleRequest, opts ...http.CallOption) (*GetArticleReply, error) {
 	var out GetArticleReply
 	pattern := "/api/articles/{slug}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/GetArticle"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/GetArticle"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -590,11 +590,11 @@ func (c *RealWordHTTPClientImpl) GetArticle(ctx context.Context, in *GetArticleR
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) GetComments(ctx context.Context, in *GetCommentsRequest, opts ...http.CallOption) (*GetCommentsReply, error) {
+func (c *RealWorldHTTPClientImpl) GetComments(ctx context.Context, in *GetCommentsRequest, opts ...http.CallOption) (*GetCommentsReply, error) {
 	var out GetCommentsReply
 	pattern := "/api/articles/{slug}/comments"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/GetComments"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/GetComments"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -603,11 +603,11 @@ func (c *RealWordHTTPClientImpl) GetComments(ctx context.Context, in *GetComment
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...http.CallOption) (*GetCurrentUserReply, error) {
+func (c *RealWorldHTTPClientImpl) GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...http.CallOption) (*GetCurrentUserReply, error) {
 	var out GetCurrentUserReply
 	pattern := "/api/user"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/GetCurrentUser"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/GetCurrentUser"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -616,11 +616,11 @@ func (c *RealWordHTTPClientImpl) GetCurrentUser(ctx context.Context, in *GetCurr
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) GetProfile(ctx context.Context, in *GetProfileRequest, opts ...http.CallOption) (*GetProfileReply, error) {
+func (c *RealWorldHTTPClientImpl) GetProfile(ctx context.Context, in *GetProfileRequest, opts ...http.CallOption) (*GetProfileReply, error) {
 	var out GetProfileReply
 	pattern := "/api/profiles/{username}"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/GetProfile"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/GetProfile"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -629,11 +629,11 @@ func (c *RealWordHTTPClientImpl) GetProfile(ctx context.Context, in *GetProfileR
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) GetTags(ctx context.Context, in *GetTagsRequest, opts ...http.CallOption) (*GetTagsReply, error) {
+func (c *RealWorldHTTPClientImpl) GetTags(ctx context.Context, in *GetTagsRequest, opts ...http.CallOption) (*GetTagsReply, error) {
 	var out GetTagsReply
 	pattern := "/api/tags"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/GetTags"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/GetTags"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -642,11 +642,11 @@ func (c *RealWordHTTPClientImpl) GetTags(ctx context.Context, in *GetTagsRequest
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...http.CallOption) (*ListArticlesReply, error) {
+func (c *RealWorldHTTPClientImpl) ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...http.CallOption) (*ListArticlesReply, error) {
 	var out ListArticlesReply
 	pattern := "/api/articles"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/ListArticles"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/ListArticles"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "GET", path, nil, &out, opts...)
 	if err != nil {
@@ -655,11 +655,11 @@ func (c *RealWordHTTPClientImpl) ListArticles(ctx context.Context, in *ListArtic
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginReply, error) {
+func (c *RealWorldHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, opts ...http.CallOption) (*LoginReply, error) {
 	var out LoginReply
 	pattern := "/api/users/login"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/Login"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/Login"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -668,11 +668,11 @@ func (c *RealWordHTTPClientImpl) Login(ctx context.Context, in *LoginRequest, op
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) Registration(ctx context.Context, in *RegistrationRequest, opts ...http.CallOption) (*RegistrationReply, error) {
+func (c *RealWorldHTTPClientImpl) Registration(ctx context.Context, in *RegistrationRequest, opts ...http.CallOption) (*RegistrationReply, error) {
 	var out RegistrationReply
 	pattern := "/api/users"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/Registration"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/Registration"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "POST", path, in, &out, opts...)
 	if err != nil {
@@ -681,11 +681,11 @@ func (c *RealWordHTTPClientImpl) Registration(ctx context.Context, in *Registrat
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) UnfavoriteArticle(ctx context.Context, in *UnfavoriteArticleRequest, opts ...http.CallOption) (*UnfavoriteArticleReply, error) {
+func (c *RealWorldHTTPClientImpl) UnfavoriteArticle(ctx context.Context, in *UnfavoriteArticleRequest, opts ...http.CallOption) (*UnfavoriteArticleReply, error) {
 	var out UnfavoriteArticleReply
 	pattern := "/api/articles/{slug}/favorite"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/UnfavoriteArticle"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UnfavoriteArticle"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -694,11 +694,11 @@ func (c *RealWordHTTPClientImpl) UnfavoriteArticle(ctx context.Context, in *Unfa
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...http.CallOption) (*UnfollowUserReply, error) {
+func (c *RealWorldHTTPClientImpl) UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...http.CallOption) (*UnfollowUserReply, error) {
 	var out UnfollowUserReply
 	pattern := "/api/profiles/{username}/follow"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/UnfollowUser"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UnfollowUser"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -707,11 +707,11 @@ func (c *RealWordHTTPClientImpl) UnfollowUser(ctx context.Context, in *UnfollowU
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...http.CallOption) (*UpdateArticleReply, error) {
+func (c *RealWorldHTTPClientImpl) UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...http.CallOption) (*UpdateArticleReply, error) {
 	var out UpdateArticleReply
 	pattern := "/api/articles/{slug}"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/UpdateArticle"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UpdateArticle"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
@@ -720,11 +720,11 @@ func (c *RealWordHTTPClientImpl) UpdateArticle(ctx context.Context, in *UpdateAr
 	return &out, err
 }
 
-func (c *RealWordHTTPClientImpl) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...http.CallOption) (*UpdateUserReply, error) {
+func (c *RealWorldHTTPClientImpl) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...http.CallOption) (*UpdateUserReply, error) {
 	var out UpdateUserReply
 	pattern := "/api/user"
 	path := binding.EncodeURL(pattern, in, false)
-	opts = append(opts, http.Operation("/realword.v1.RealWord/UpdateUser"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UpdateUser"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "PUT", path, in, &out, opts...)
 	if err != nil {
