@@ -2,17 +2,19 @@ package biz
 
 import (
 	"context"
+	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
 	"google.golang.org/protobuf/types/known/anypb"
 )
 
 type User struct {
-	Email    string
-	Username string
-	Bio      string
-	Token    string
-	Password string
-	Image    *anypb.Any
+	Email        string
+	Username     string
+	Bio          string
+	Token        string
+	Image        *anypb.Any
+	Password     string
+	PasswordHash string
 }
 
 type Profile struct {
@@ -22,7 +24,7 @@ type UserRepo interface {
 	CreateUser(ctx context.Context, user *User) (*User, error)
 	UpdateUser(ctx context.Context, user *User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
-	VerifyPassword(ctx context.Context, user *User) (bool, error)
+	VerifyPassword(password, passwordhash string) bool
 }
 
 type ProfileRepo interface {
@@ -42,20 +44,26 @@ func NewUserUsecase(ur UserRepo, pr ProfileRepo, logger log.Logger) *UserUsecase
 }
 
 func (uc *UserUsecase) Login(ctx context.Context, email, password string) (*User, error) {
-	//uc.ur.GetUserByEmail(ctx context.Context, email string) (*User, error)
-	//uc.ur.VerifyPassword(ctx context.Context, user *User) (bool, error)
-	return nil, nil
+	u, err := uc.ur.GetUserByEmail(ctx, email)
+	if err != nil {
+		return nil, err
+	}
+	if !uc.ur.VerifyPassword(password, u.PasswordHash) {
+		return nil, errors.Unauthorized("user", "login failed")
+	}
+	return u, nil
 }
 
-func (uc *UserUsecase) CreateUser(ctx context.Context, u *User) (*User, error) {
-	user := &User{
-		Email:    u.Email,
-		Username: u.Username,
-		Token:    "Token",
-		Bio:      "Bio",
-		Image:    nil,
+func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, password string) (*User, error) {
+	u, err := uc.ur.CreateUser(ctx, &User{
+		Email:    email,
+		Username: username,
+		Password: password,
+	})
+	if err != nil {
+		return nil, err
 	}
-	return user, nil
+	return u, nil
 }
 
 func (uc *UserUsecase) GetCurrentUser(ctx context.Context, u *User) error {

@@ -2,8 +2,12 @@ package data
 
 import (
 	"context"
+	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
+	"gorm.io/gorm"
 	"realword/internal/biz"
+	"realword/internal/data/model"
+	"realword/internal/pkg/util"
 )
 
 type userRepo struct {
@@ -12,21 +16,44 @@ type userRepo struct {
 }
 
 func (r *userRepo) CreateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (r *userRepo) UpdateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
-	//TODO implement me
-	panic("implement me")
+	ph, err := util.HashPassword(user.Password)
+	if err != nil {
+		return nil, err
+	}
+	result := r.data.db.Create(&model.User{
+		Username:     user.Username,
+		Email:        user.Email,
+		PasswordHash: ph,
+	})
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return user, nil
 }
 
 func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*biz.User, error) {
-	//TODO implement me
-	panic("implement me")
+	u := new(model.User)
+	result := r.data.db.First(&u, "email = ?", email)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return nil, errors.NotFound("user", "not found by email")
+	}
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &biz.User{
+		Email:        u.Email,
+		Username:     u.Username,
+		Bio:          u.Bio,
+		Image:        nil,
+		PasswordHash: u.PasswordHash,
+	}, nil
 }
 
-func (r *userRepo) VerifyPassword(ctx context.Context, user *biz.User) (bool, error) {
+func (r *userRepo) VerifyPassword(password, passwordhash string) bool {
+	return util.CheckPasswordHash(password, passwordhash)
+}
+
+func (r *userRepo) UpdateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
 	//TODO implement me
 	panic("implement me")
 }
