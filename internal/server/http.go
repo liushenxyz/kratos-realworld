@@ -7,6 +7,7 @@ import (
 	"github.com/go-kratos/kratos/v2/middleware/selector"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/go-kratos/swagger-api/openapiv2"
+	"github.com/gorilla/handlers"
 	v1 "realworld/api/realworld/v1"
 	"realworld/internal/conf"
 	"realworld/internal/pkg/middleware/auth"
@@ -39,6 +40,13 @@ func NewHTTPServer(confServer *conf.Server, confAuth *conf.Auth, realworld *serv
 		http.Middleware(
 			recovery.Recovery(),
 			selector.Server(auth.JWTAuth(confAuth.Secret, confAuth.Typ)).Match(NewSkipRoutersMatcher()).Build(),
+		),
+		http.Filter(
+			handlers.CORS(
+				handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"}),
+				handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"}),
+				handlers.AllowedOrigins([]string{"*"}),
+			),
 		),
 	}
 	if confServer.Http.Network != "" {
