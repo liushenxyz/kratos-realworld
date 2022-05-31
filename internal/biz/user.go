@@ -47,6 +47,9 @@ func NewUserUsecase(ur UserRepo, pr ProfileRepo, confAuth *conf.Auth, logger log
 }
 
 func (uc *UserUsecase) Login(ctx context.Context, email, password string) (*User, error) {
+	if len(email) == 0 {
+		return nil, errors.New(422, "email", "cannot be empty")
+	}
 	u, err := uc.ur.GetUserByEmail(ctx, email)
 	if err != nil {
 		return nil, err
@@ -54,10 +57,9 @@ func (uc *UserUsecase) Login(ctx context.Context, email, password string) (*User
 	if !uc.ur.VerifyPassword(password, u.PasswordHash) {
 		return nil, errors.Unauthorized("user", "login failed")
 	}
-
 	token, err := auth.CreateTokenString(uc.confAuth.Secret, u.Username)
 	if err != nil {
-		return nil, err
+		return nil, errors.InternalServer("token", "create token fail")
 	}
 	return &User{
 		Email:    u.Email,

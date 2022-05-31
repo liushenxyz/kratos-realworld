@@ -42,7 +42,7 @@ func NewDB(c *conf.Data) *gorm.DB {
 		&model.User{},
 		&model.Profile{},
 	); err != nil {
-		panic(err)
+		panic("failed AutoMigrate")
 	}
 	return db
 }

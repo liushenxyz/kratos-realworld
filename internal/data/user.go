@@ -18,7 +18,7 @@ type userRepo struct {
 func (r *userRepo) CreateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
 	ph, err := util.HashPassword(user.Password)
 	if err != nil {
-		return nil, err
+		return nil, errors.InternalServer("user", err.Error())
 	}
 	result := r.data.db.Create(&model.User{
 		Username:     user.Username,
@@ -26,8 +26,9 @@ func (r *userRepo) CreateUser(ctx context.Context, user *biz.User) (*biz.User, e
 		PasswordHash: ph,
 	})
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, errors.InternalServer("user", result.Error.Error())
 	}
+
 	return user, nil
 }
 
@@ -38,7 +39,7 @@ func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*biz.User,
 		return nil, errors.NotFound("user", "not found by email")
 	}
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, errors.InternalServer("user", result.Error.Error())
 	}
 	return &biz.User{
 		Email:        u.Email,
