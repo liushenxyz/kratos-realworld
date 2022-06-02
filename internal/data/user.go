@@ -50,6 +50,24 @@ func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*biz.User,
 	}, nil
 }
 
+func (r *userRepo) GetUserByUsername(ctx context.Context, username string) (*biz.User, error) {
+	u := new(model.User)
+	result := r.data.db.First(&u, "username = ?", username)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return nil, errors.NotFound("user", "not found by email")
+	}
+	if result.Error != nil {
+		return nil, errors.InternalServer("user", result.Error.Error())
+	}
+	return &biz.User{
+		Email:        u.Email,
+		Username:     u.Username,
+		Bio:          u.Bio,
+		Image:        nil,
+		PasswordHash: u.PasswordHash,
+	}, nil
+}
+
 func (r *userRepo) VerifyPassword(password, passwordhash string) bool {
 	return util.CheckPasswordHash(password, passwordhash)
 }

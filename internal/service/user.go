@@ -44,7 +44,22 @@ func (s *RealWorldService) Registration(ctx context.Context, in *pb.Registration
 }
 
 func (s *RealWorldService) GetCurrentUser(ctx context.Context, in *pb.GetCurrentUserRequest) (*pb.GetCurrentUserReply, error) {
-	return &pb.GetCurrentUserReply{}, nil
+	s.log.Infof("input data %v", in)
+	u, err := s.uc.GetCurrentUser(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.GetCurrentUserReply{
+		User: &pb.User{
+			User: &pb.User_User{
+				Email:    u.Email,
+				Token:    u.Token,
+				Username: u.Username,
+				Bio:      u.Bio,
+				Image:    u.Image,
+			},
+		},
+	}, nil
 }
 
 func (s *RealWorldService) UpdateUser(ctx context.Context, in *pb.UpdateUserRequest) (*pb.UpdateUserReply, error) {

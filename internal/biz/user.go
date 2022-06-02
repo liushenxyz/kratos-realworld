@@ -26,6 +26,7 @@ type UserRepo interface {
 	CreateUser(ctx context.Context, user *User) (*User, error)
 	UpdateUser(ctx context.Context, user *User) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
+	GetUserByUsername(ctx context.Context, username string) (*User, error)
 	VerifyPassword(password, passwordhash string) bool
 }
 
@@ -82,8 +83,16 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, password
 	return u, nil
 }
 
-func (uc *UserUsecase) GetCurrentUser(ctx context.Context, u *User) error {
-	return nil
+func (uc *UserUsecase) GetCurrentUser(ctx context.Context) (*User, error) {
+	cu, ok := auth.FromContext(ctx)
+	if !ok {
+		return nil, errors.New(500, "user", "failed to get current user from context")
+	}
+	u, err := uc.ur.GetUserByUsername(ctx, cu.Username)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
 }
 
 func (uc *UserUsecase) UpdateUser(ctx context.Context, u *User) error {

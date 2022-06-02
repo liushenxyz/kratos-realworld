@@ -10,12 +10,6 @@ import (
 	"time"
 )
 
-var currentUserKey struct{}
-
-type CurrentUser struct {
-	Username string
-}
-
 func CreateTokenString(secret, username string) (string, error) {
 	// Create a new token object, specifying signing method and the claims
 	// you would like it to contain.
@@ -57,7 +51,7 @@ func JWTAuth(secret, typ string) middleware.Middleware {
 				if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 					if u, ok := claims["username"]; ok {
 						// put CurrentUser into ctx
-						ctx = WithContext(ctx, &CurrentUser{Username: u.(string)})
+						ctx = NewContext(ctx, &CurrentUser{Username: u.(string)})
 					}
 				} else {
 					return nil, errors.Unauthorized("token", "token Invalid")
@@ -68,10 +62,27 @@ func JWTAuth(secret, typ string) middleware.Middleware {
 	}
 }
 
-func FromContext(ctx context.Context) *CurrentUser {
-	return ctx.Value(currentUserKey).(*CurrentUser)
+// CurrentUser is the type of value stored in the Contexts.
+type CurrentUser struct {
+	Username string
 }
 
-func WithContext(ctx context.Context, user *CurrentUser) context.Context {
-	return context.WithValue(ctx, currentUserKey, user)
+// key is an unexported type for keys defined in this package.
+// This prevents collisions with keys defined in other packages.
+type key int
+
+// userKey is the key for user.User values in Contexts. It is
+// unexported; clients use user.NewContext and user.FromContext
+// instead of using this key directly.
+var userKey key
+
+// NewContext returns a new Context that carries value u.
+func NewContext(ctx context.Context, u *CurrentUser) context.Context {
+	return context.WithValue(ctx, userKey, u)
+}
+
+// FromContext returns the User value stored in ctx, if any.
+func FromContext(ctx context.Context) (*CurrentUser, bool) {
+	u, ok := ctx.Value(userKey).(*CurrentUser)
+	return u, ok
 }
