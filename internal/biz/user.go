@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
-	"google.golang.org/protobuf/types/known/anypb"
 	"realworld/internal/conf"
 	"realworld/internal/pkg/middleware/auth"
 )
@@ -14,7 +13,7 @@ type User struct {
 	Username     string
 	Bio          string
 	Token        string
-	Image        *anypb.Any
+	Image        string
 	Password     string
 	PasswordHash string
 }
@@ -56,7 +55,7 @@ func (uc *UserUsecase) Login(ctx context.Context, email, password string) (*User
 		return nil, err
 	}
 	if !uc.ur.VerifyPassword(password, u.PasswordHash) {
-		return nil, errors.Unauthorized("user", "login failed")
+		return nil, errors.Unauthorized("user", "login failed password error")
 	}
 	token, err := auth.CreateTokenString(uc.confAuth.Secret, u.Username)
 	if err != nil {

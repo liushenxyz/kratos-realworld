@@ -9,8 +9,8 @@ func (s *RealWorldService) ListArticles(ctx context.Context, in *v1.ListArticles
 	return &v1.ListArticlesReply{}, nil
 }
 
-func (s *RealWorldService) FeedArticles(ctx context.Context, in *v1.ListArticlesRequest) (*v1.ListArticlesReply, error) {
-	return &v1.ListArticlesReply{}, nil
+func (s *RealWorldService) FeedArticles(ctx context.Context, in *v1.FeedArticlesRequest) (*v1.FeedArticlesReply, error) {
+	return &v1.FeedArticlesReply{}, nil
 }
 
 func (s *RealWorldService) GetArticle(ctx context.Context, in *v1.GetArticleRequest) (*v1.GetArticleReply, error) {

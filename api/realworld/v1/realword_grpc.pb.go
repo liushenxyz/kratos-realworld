@@ -30,7 +30,7 @@ type RealWorldClient interface {
 	FollowUser(ctx context.Context, in *FollowUserRequest, opts ...grpc.CallOption) (*FollowUserReply, error)
 	UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...grpc.CallOption) (*UnfollowUserReply, error)
 	ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesReply, error)
-	FeedArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesReply, error)
+	FeedArticles(ctx context.Context, in *FeedArticlesRequest, opts ...grpc.CallOption) (*FeedArticlesReply, error)
 	GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*GetArticleReply, error)
 	CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error)
 	UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*UpdateArticleReply, error)
@@ -123,8 +123,8 @@ func (c *realWorldClient) ListArticles(ctx context.Context, in *ListArticlesRequ
 	return out, nil
 }
 
-func (c *realWorldClient) FeedArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesReply, error) {
-	out := new(ListArticlesReply)
+func (c *realWorldClient) FeedArticles(ctx context.Context, in *FeedArticlesRequest, opts ...grpc.CallOption) (*FeedArticlesReply, error) {
+	out := new(FeedArticlesReply)
 	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/FeedArticles", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -234,7 +234,7 @@ type RealWorldServer interface {
 	FollowUser(context.Context, *FollowUserRequest) (*FollowUserReply, error)
 	UnfollowUser(context.Context, *UnfollowUserRequest) (*UnfollowUserReply, error)
 	ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error)
-	FeedArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error)
+	FeedArticles(context.Context, *FeedArticlesRequest) (*FeedArticlesReply, error)
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
 	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
 	UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleReply, error)
@@ -276,7 +276,7 @@ func (UnimplementedRealWorldServer) UnfollowUser(context.Context, *UnfollowUserR
 func (UnimplementedRealWorldServer) ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArticles not implemented")
 }
-func (UnimplementedRealWorldServer) FeedArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error) {
+func (UnimplementedRealWorldServer) FeedArticles(context.Context, *FeedArticlesRequest) (*FeedArticlesReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FeedArticles not implemented")
 }
 func (UnimplementedRealWorldServer) GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error) {
@@ -467,7 +467,7 @@ func _RealWorld_ListArticles_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _RealWorld_FeedArticles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListArticlesRequest)
+	in := new(FeedArticlesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -479,7 +479,7 @@ func _RealWorld_FeedArticles_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/realworld.v1.RealWorld/FeedArticles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RealWorldServer).FeedArticles(ctx, req.(*ListArticlesRequest))
+		return srv.(RealWorldServer).FeedArticles(ctx, req.(*FeedArticlesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

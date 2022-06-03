@@ -76,18 +76,6 @@ paths:
                 - RealWorld
             operationId: RealWorld_FeedArticles
             parameters:
-                - name: tag
-                  in: query
-                  schema:
-                    type: string
-                - name: author
-                  in: query
-                  schema:
-                    type: string
-                - name: favorited
-                  in: query
-                  schema:
-                    type: string
                 - name: limit
                   in: query
                   schema:
@@ -104,7 +92,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/ListArticlesReply'
+                                $ref: '#/components/schemas/FeedArticlesReply'
                 default:
                     description: Default error response
                     content:
@@ -620,6 +608,16 @@ components:
             properties:
                 slug:
                     type: string
+        FeedArticlesReply:
+            type: object
+            properties:
+                articles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Article'
+                articlesCount:
+                    type: integer
+                    format: uint32
         FollowUserReply:
             type: object
             properties:
@@ -795,6 +793,10 @@ components:
             properties:
                 email:
                     type: string
+                username:
+                    type: string
+                password:
+                    type: string
                 bio:
                     type: string
                 image:
@@ -816,6 +818,6 @@ components:
                 bio:
                     type: string
                 image:
-                    $ref: '#/components/schemas/GoogleProtobufAny'
+                    type: string
 tags:
     - name: RealWorld

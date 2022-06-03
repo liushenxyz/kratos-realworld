@@ -23,7 +23,7 @@ type RealWorldHTTPServer interface {
 	DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleReply, error)
 	DeleteComments(context.Context, *DeleteCommentsRequest) (*DeleteCommentsReply, error)
 	FavoriteArticle(context.Context, *FavoriteArticleRequest) (*FavoriteArticleReply, error)
-	FeedArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error)
+	FeedArticles(context.Context, *FeedArticlesRequest) (*FeedArticlesReply, error)
 	FollowUser(context.Context, *FollowUserRequest) (*FollowUserReply, error)
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
 	GetComments(context.Context, *GetCommentsRequest) (*GetCommentsReply, error)
@@ -225,19 +225,19 @@ func _RealWorld_ListArticles0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx htt
 
 func _RealWorld_FeedArticles0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in ListArticlesRequest
+		var in FeedArticlesRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, "/realworld.v1.RealWorld/FeedArticles")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.FeedArticles(ctx, req.(*ListArticlesRequest))
+			return srv.FeedArticles(ctx, req.(*FeedArticlesRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*ListArticlesReply)
+		reply := out.(*FeedArticlesReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -462,7 +462,7 @@ type RealWorldHTTPClient interface {
 	DeleteArticle(ctx context.Context, req *DeleteArticleRequest, opts ...http.CallOption) (rsp *DeleteArticleReply, err error)
 	DeleteComments(ctx context.Context, req *DeleteCommentsRequest, opts ...http.CallOption) (rsp *DeleteCommentsReply, err error)
 	FavoriteArticle(ctx context.Context, req *FavoriteArticleRequest, opts ...http.CallOption) (rsp *FavoriteArticleReply, err error)
-	FeedArticles(ctx context.Context, req *ListArticlesRequest, opts ...http.CallOption) (rsp *ListArticlesReply, err error)
+	FeedArticles(ctx context.Context, req *FeedArticlesRequest, opts ...http.CallOption) (rsp *FeedArticlesReply, err error)
 	FollowUser(ctx context.Context, req *FollowUserRequest, opts ...http.CallOption) (rsp *FollowUserReply, err error)
 	GetArticle(ctx context.Context, req *GetArticleRequest, opts ...http.CallOption) (rsp *GetArticleReply, err error)
 	GetComments(ctx context.Context, req *GetCommentsRequest, opts ...http.CallOption) (rsp *GetCommentsReply, err error)
@@ -551,8 +551,8 @@ func (c *RealWorldHTTPClientImpl) FavoriteArticle(ctx context.Context, in *Favor
 	return &out, err
 }
 
-func (c *RealWorldHTTPClientImpl) FeedArticles(ctx context.Context, in *ListArticlesRequest, opts ...http.CallOption) (*ListArticlesReply, error) {
-	var out ListArticlesReply
+func (c *RealWorldHTTPClientImpl) FeedArticles(ctx context.Context, in *FeedArticlesRequest, opts ...http.CallOption) (*FeedArticlesReply, error) {
+	var out FeedArticlesReply
 	pattern := "/api/articles/feed"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation("/realworld.v1.RealWorld/FeedArticles"))

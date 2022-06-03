@@ -4,7 +4,6 @@ package realworld.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/any.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "realworld/api/realworld/v1;v1";
@@ -59,11 +58,27 @@ service RealWorld {
       put: "/api/user",
       body: "*",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
   rpc GetProfile (GetProfileRequest) returns (GetProfileReply) {
     option (google.api.http) = {
       get: "/api/profiles/{username}",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
     };
   }
 
@@ -72,11 +87,27 @@ service RealWorld {
       post: "/api/profiles/{username}/follow",
       body: "*",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
   rpc UnfollowUser (UnfollowUserRequest) returns (UnfollowUserReply) {
     option (google.api.http) = {
       delete: "/api/profiles/{username}/follow",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
     };
   }
 
@@ -84,11 +115,27 @@ service RealWorld {
     option (google.api.http) = {
       get: "/api/articles",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
-  rpc FeedArticles (ListArticlesRequest) returns (ListArticlesReply) {
+  rpc FeedArticles (FeedArticlesRequest) returns (FeedArticlesReply) {
     option (google.api.http) = {
       get: "/api/articles/feed",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
     };
   }
 
@@ -103,6 +150,14 @@ service RealWorld {
       post: "/api/articles",
       body: "*",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
   rpc UpdateArticle (UpdateArticleRequest) returns (UpdateArticleReply) {
@@ -110,11 +165,27 @@ service RealWorld {
       put: "/api/articles/{slug}",
       body: "*",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
   rpc DeleteArticle (DeleteArticleRequest) returns (DeleteArticleReply) {
     option (google.api.http) = {
       delete: "/api/articles/{slug}",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
     };
   }
 
@@ -123,17 +194,41 @@ service RealWorld {
       post: "/api/articles/{slug}/comments",
       body: "*",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
   rpc GetComments (GetCommentsRequest) returns (GetCommentsReply) {
     option (google.api.http) = {
       get: "/api/articles/{slug}/comments",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
   rpc DeleteComments (DeleteCommentsRequest) returns (DeleteCommentsReply) {
     option (google.api.http) = {
       delete: "/api/articles/{slug}/comments/{id}",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
     };
   }
 
@@ -142,11 +237,27 @@ service RealWorld {
       post: "/api/articles/{slug}/favorite",
       body: "*",
     };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
+    };
   }
 
   rpc UnfavoriteArticle (UnfavoriteArticleRequest) returns (UnfavoriteArticleReply) {
     option (google.api.http) = {
       delete: "/api/articles/{slug}/favorite",
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      security: {
+        security_requirement: {
+          key: "JWT"
+          value: {}
+        }
+      }
     };
   }
 
@@ -166,7 +277,7 @@ message User {
     string token = 2;
     string username = 3;
     string bio = 4;
-    google.protobuf.Any image = 5;
+    string image = 5;
   }
   User user = 1;
 }
@@ -248,8 +359,10 @@ message GetCurrentUserReply {
 message UpdateUserRequest {
   message User {
     string email = 1;
-    string bio = 2;
-    string image = 3;
+    string username = 2;
+    string password = 3;
+    string bio = 4;
+    string image = 5;
   }
   User user = 1;
 }
