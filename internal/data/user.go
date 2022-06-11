@@ -16,55 +16,86 @@ type userRepo struct {
 }
 
 func (r *userRepo) CreateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
-	ph, err := util.HashPassword(user.Password)
+	err := r.data.db.Create(&model.User{
+		Username:     user.Username,
+		Email:        user.Email,
+		PasswordHash: util.HashPassword(user.Password),
+	}).Error
 	if err != nil {
 		return nil, errors.InternalServer("user", err.Error())
 	}
-	result := r.data.db.Create(&model.User{
-		Username:     user.Username,
-		Email:        user.Email,
-		PasswordHash: ph,
-	})
-	if result.Error != nil {
-		return nil, errors.InternalServer("user", result.Error.Error())
-	}
-
 	return user, nil
 }
 
-func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*biz.User, error) {
-	u := new(model.User)
-	result := r.data.db.First(&u, "email = ?", email)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return nil, errors.NotFound("user", "not found by email")
+func (r *userRepo) UpdateUser(ctx context.Context, id uint, argsMap map[string]interface{}) (*biz.User, error) {
+	var m model.User
+	if argsMap["Password"] != nil {
+		argsMap["PasswordHash"] = util.HashPassword(argsMap["Password"].(string))
 	}
-	if result.Error != nil {
-		return nil, errors.InternalServer("user", result.Error.Error())
+	if err := r.data.db.First(&m, id).Updates(argsMap).Error; err != nil {
+		return nil, errors.InternalServer("user", err.Error())
 	}
 	return &biz.User{
-		Email:        u.Email,
-		Username:     u.Username,
-		Bio:          u.Bio,
-		Image:        u.Image,
-		PasswordHash: u.PasswordHash,
+		ID:           m.ID,
+		Email:        m.Email,
+		Username:     m.Username,
+		Bio:          m.Bio,
+		Image:        m.Image,
+		PasswordHash: m.PasswordHash,
+	}, nil
+}
+
+func (r *userRepo) GetUserByID(ctx context.Context, id uint) (*biz.User, error) {
+	var m model.User
+	if err := r.data.db.First(&m, id).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.NotFound("user", "not found by id")
+		}
+		return nil, errors.InternalServer("user", err.Error())
+	}
+	return &biz.User{
+		ID:           m.ID,
+		Email:        m.Email,
+		Username:     m.Username,
+		Bio:          m.Bio,
+		Image:        m.Image,
+		PasswordHash: m.PasswordHash,
+	}, nil
+}
+
+func (r *userRepo) GetUserByEmail(ctx context.Context, email string) (*biz.User, error) {
+	var m model.User
+	if err := r.data.db.Where(&model.User{Email: email}).First(&m).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.NotFound("user", "not found by email")
+		}
+		return nil, errors.InternalServer("user", err.Error())
+	}
+	return &biz.User{
+		ID:           m.ID,
+		Email:        m.Email,
+		Username:     m.Username,
+		Bio:          m.Bio,
+		Image:        m.Image,
+		PasswordHash: m.PasswordHash,
 	}, nil
 }
 
 func (r *userRepo) GetUserByUsername(ctx context.Context, username string) (*biz.User, error) {
-	u := new(model.User)
-	result := r.data.db.First(&u, "username = ?", username)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		return nil, errors.NotFound("user", "not found by email")
-	}
-	if result.Error != nil {
-		return nil, errors.InternalServer("user", result.Error.Error())
+	var m model.User
+	if err := r.data.db.Where(&model.User{Username: username}).First(&m).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.NotFound("user", "not found by username")
+		}
+		return nil, errors.InternalServer("user", err.Error())
 	}
 	return &biz.User{
-		Email:        u.Email,
-		Username:     u.Username,
-		Bio:          u.Bio,
-		Image:        u.Image,
-		PasswordHash: u.PasswordHash,
+		ID:           m.ID,
+		Email:        m.Email,
+		Username:     m.Username,
+		Bio:          m.Bio,
+		Image:        m.Image,
+		PasswordHash: m.PasswordHash,
 	}, nil
 }
 
@@ -72,29 +103,46 @@ func (r *userRepo) VerifyPassword(password, passwordhash string) bool {
 	return util.CheckPasswordHash(password, passwordhash)
 }
 
-func (r *userRepo) UpdateUser(ctx context.Context, user *biz.User) (*biz.User, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
 type profileRepo struct {
 	data *Data
 	log  *log.Helper
 }
 
-func (p profileRepo) GetProfileByUsername(ctx context.Context, username string) (*biz.Profile, error) {
-	//TODO implement me
-	panic("implement me")
+func (p profileRepo) IsFollowing(ctx context.Context, followerID, followingID uint) (bool, error) {
+	var m model.User
+	p.data.db.First(&m, followerID)
+	var followingsList []model.Follow
+	if err := p.data.db.Model(&m).Association("Followings").Find(&followingsList); err != nil {
+		return false, errors.InternalServer("user", err.Error())
+	}
+	for _, f := range followingsList {
+		if f.FollowingID == followingID {
+			return true, nil
+		}
+	}
+	return false, nil
 }
 
-func (p profileRepo) FollowUserByUsername(ctx context.Context, username string) (*biz.Profile, error) {
-	//TODO implement me
-	panic("implement me")
+func (p profileRepo) FollowUser(ctx context.Context, followerID, followingID uint) error {
+	var m model.User
+	p.data.db.First(&m, followerID)
+	if err := p.data.db.Model(&m).Association("Followings").Append(&model.Follow{
+		FollowerID:  followerID,
+		FollowingID: followingID,
+	}); err != nil {
+		return errors.InternalServer("user", err.Error())
+	}
+	return nil
 }
 
-func (p profileRepo) UnfollowUserByUsername(ctx context.Context, username string) (*biz.Profile, error) {
-	//TODO implement me
-	panic("implement me")
+func (p profileRepo) UnfollowUser(ctx context.Context, followerID, followingID uint) error {
+	if err := p.data.db.Delete(&model.Follow{
+		FollowerID:  followerID,
+		FollowingID: followingID,
+	}).Error; err != nil {
+		return errors.InternalServer("user", err.Error())
+	}
+	return nil
 }
 
 func NewUserRepo(data *Data, logger log.Logger) biz.UserRepo {

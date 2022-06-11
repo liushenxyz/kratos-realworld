@@ -17,10 +17,10 @@ import (
 func NewSkipRoutersMatcher() selector.MatchFunc {
 
 	skipRouters := map[string]struct{}{
-		"/realworld.v1.RealWorld/Login":      {},
-		"/realworld.v1.RealWorld/Register":   {},
-		"/realworld.v1.RealWorld/GetArticle": {},
-		"/realworld.v1.RealWorld/GetTags":    {},
+		"/realworld.v1.RealWorld/Login":        {},
+		"/realworld.v1.RealWorld/Registration": {},
+		"/realworld.v1.RealWorld/GetArticle":   {},
+		"/realworld.v1.RealWorld/GetTags":      {},
 	}
 
 	return func(ctx context.Context, operation string) bool {

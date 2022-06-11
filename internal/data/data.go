@@ -3,6 +3,7 @@ package data
 import (
 	"realworld/internal/conf"
 	"realworld/internal/data/model"
+	"time"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/google/wire"
@@ -38,11 +39,28 @@ func NewDB(c *conf.Data) *gorm.DB {
 	if err != nil {
 		panic("failed to connect database")
 	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		panic("sqlDB err")
+	}
+	sqlDB.SetMaxIdleConns(3)
+	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetConnMaxLifetime(time.Hour)
+
+	AutoMigrate(db)
+
+	return db
+}
+
+func AutoMigrate(db *gorm.DB) {
 	if err := db.AutoMigrate(
 		&model.User{},
-		&model.Profile{},
+		&model.Follow{},
+		&model.Article{},
+		&model.Comment{},
+		&model.Tag{},
 	); err != nil {
 		panic("failed AutoMigrate")
 	}
-	return db
 }

@@ -165,10 +165,7 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DeleteArticleReply'
+                    content: {}
                 default:
                     description: Default error response
                     content:
@@ -248,10 +245,7 @@ paths:
             responses:
                 "200":
                     description: OK
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/DeleteCommentsReply'
+                    content: {}
                 default:
                     description: Default error response
                     content:
@@ -592,12 +586,6 @@ components:
                     type: array
                     items:
                         type: string
-        DeleteArticleReply:
-            type: object
-            properties: {}
-        DeleteCommentsReply:
-            type: object
-            properties: {}
         FavoriteArticleReply:
             type: object
             properties:

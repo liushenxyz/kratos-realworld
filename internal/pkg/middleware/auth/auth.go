@@ -10,19 +10,18 @@ import (
 	"time"
 )
 
-func CreateTokenString(secret, username string) (string, error) {
+func CreateTokenString(secret, email, username string, id uint) string {
 	// Create a new token object, specifying signing method and the claims
 	// you would like it to contain.
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"id":       id,
+		"email":    email,
 		"username": username,
-		"time":     time.Now(),
+		"exp":      time.Now().Add(time.Hour * 72).Unix(),
 	})
 	// Sign and get the complete encoded token as a string using the secret
-	tokenString, err := token.SignedString([]byte(secret))
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
+	tokenString, _ := token.SignedString([]byte(secret))
+	return tokenString
 }
 
 func JWTAuth(secret, typ string) middleware.Middleware {
@@ -45,14 +44,15 @@ func JWTAuth(secret, typ string) middleware.Middleware {
 					return []byte(secret), nil
 				})
 				if err != nil {
-					return nil, err
+					return nil, errors.Unauthorized("token", "jwt token parse fail")
 				}
 
 				if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-					if u, ok := claims["username"]; ok {
-						// put CurrentUser into ctx
-						ctx = NewContext(ctx, &CurrentUser{Username: u.(string)})
-					}
+					ctx = NewContext(ctx, &CurrentUser{
+						ID:       uint(claims["id"].(float64)),
+						Email:    claims["email"].(string),
+						Username: claims["username"].(string),
+					})
 				} else {
 					return nil, errors.Unauthorized("token", "token Invalid")
 				}
@@ -64,7 +64,9 @@ func JWTAuth(secret, typ string) middleware.Middleware {
 
 // CurrentUser is the type of value stored in the Contexts.
 type CurrentUser struct {
+	ID       uint
 	Username string
+	Email    string
 }
 
 // key is an unexported type for keys defined in this package.

@@ -8,6 +8,7 @@ import (
 	context "context"
 	http "github.com/go-kratos/kratos/v2/transport/http"
 	binding "github.com/go-kratos/kratos/v2/transport/http/binding"
+	empty "github.com/golang/protobuf/ptypes/empty"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -20,16 +21,16 @@ const _ = http.SupportPackageIsVersion1
 type RealWorldHTTPServer interface {
 	AddComments(context.Context, *AddCommentsRequest) (*AddCommentsReply, error)
 	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
-	DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleReply, error)
-	DeleteComments(context.Context, *DeleteCommentsRequest) (*DeleteCommentsReply, error)
+	DeleteArticle(context.Context, *DeleteArticleRequest) (*empty.Empty, error)
+	DeleteComments(context.Context, *DeleteCommentsRequest) (*empty.Empty, error)
 	FavoriteArticle(context.Context, *FavoriteArticleRequest) (*FavoriteArticleReply, error)
 	FeedArticles(context.Context, *FeedArticlesRequest) (*FeedArticlesReply, error)
 	FollowUser(context.Context, *FollowUserRequest) (*FollowUserReply, error)
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
 	GetComments(context.Context, *GetCommentsRequest) (*GetCommentsReply, error)
-	GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserReply, error)
+	GetCurrentUser(context.Context, *empty.Empty) (*GetCurrentUserReply, error)
 	GetProfile(context.Context, *GetProfileRequest) (*GetProfileReply, error)
-	GetTags(context.Context, *GetTagsRequest) (*GetTagsReply, error)
+	GetTags(context.Context, *empty.Empty) (*GetTagsReply, error)
 	ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error)
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	Registration(context.Context, *RegistrationRequest) (*RegistrationReply, error)
@@ -102,13 +103,13 @@ func _RealWorld_Registration0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx htt
 
 func _RealWorld_GetCurrentUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in GetCurrentUserRequest
+		var in empty.Empty
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, "/realworld.v1.RealWorld/GetCurrentUser")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetCurrentUser(ctx, req.(*GetCurrentUserRequest))
+			return srv.GetCurrentUser(ctx, req.(*empty.Empty))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -322,7 +323,7 @@ func _RealWorld_DeleteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx ht
 		if err != nil {
 			return err
 		}
-		reply := out.(*DeleteArticleReply)
+		reply := out.(*empty.Empty)
 		return ctx.Result(200, reply)
 	}
 }
@@ -388,7 +389,7 @@ func _RealWorld_DeleteComments0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx h
 		if err != nil {
 			return err
 		}
-		reply := out.(*DeleteCommentsReply)
+		reply := out.(*empty.Empty)
 		return ctx.Result(200, reply)
 	}
 }
@@ -439,13 +440,13 @@ func _RealWorld_UnfavoriteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ct
 
 func _RealWorld_GetTags0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in GetTagsRequest
+		var in empty.Empty
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		http.SetOperation(ctx, "/realworld.v1.RealWorld/GetTags")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.GetTags(ctx, req.(*GetTagsRequest))
+			return srv.GetTags(ctx, req.(*empty.Empty))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
@@ -459,16 +460,16 @@ func _RealWorld_GetTags0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Con
 type RealWorldHTTPClient interface {
 	AddComments(ctx context.Context, req *AddCommentsRequest, opts ...http.CallOption) (rsp *AddCommentsReply, err error)
 	CreateArticle(ctx context.Context, req *CreateArticleRequest, opts ...http.CallOption) (rsp *CreateArticleReply, err error)
-	DeleteArticle(ctx context.Context, req *DeleteArticleRequest, opts ...http.CallOption) (rsp *DeleteArticleReply, err error)
-	DeleteComments(ctx context.Context, req *DeleteCommentsRequest, opts ...http.CallOption) (rsp *DeleteCommentsReply, err error)
+	DeleteArticle(ctx context.Context, req *DeleteArticleRequest, opts ...http.CallOption) (rsp *empty.Empty, err error)
+	DeleteComments(ctx context.Context, req *DeleteCommentsRequest, opts ...http.CallOption) (rsp *empty.Empty, err error)
 	FavoriteArticle(ctx context.Context, req *FavoriteArticleRequest, opts ...http.CallOption) (rsp *FavoriteArticleReply, err error)
 	FeedArticles(ctx context.Context, req *FeedArticlesRequest, opts ...http.CallOption) (rsp *FeedArticlesReply, err error)
 	FollowUser(ctx context.Context, req *FollowUserRequest, opts ...http.CallOption) (rsp *FollowUserReply, err error)
 	GetArticle(ctx context.Context, req *GetArticleRequest, opts ...http.CallOption) (rsp *GetArticleReply, err error)
 	GetComments(ctx context.Context, req *GetCommentsRequest, opts ...http.CallOption) (rsp *GetCommentsReply, err error)
-	GetCurrentUser(ctx context.Context, req *GetCurrentUserRequest, opts ...http.CallOption) (rsp *GetCurrentUserReply, err error)
+	GetCurrentUser(ctx context.Context, req *empty.Empty, opts ...http.CallOption) (rsp *GetCurrentUserReply, err error)
 	GetProfile(ctx context.Context, req *GetProfileRequest, opts ...http.CallOption) (rsp *GetProfileReply, err error)
-	GetTags(ctx context.Context, req *GetTagsRequest, opts ...http.CallOption) (rsp *GetTagsReply, err error)
+	GetTags(ctx context.Context, req *empty.Empty, opts ...http.CallOption) (rsp *GetTagsReply, err error)
 	ListArticles(ctx context.Context, req *ListArticlesRequest, opts ...http.CallOption) (rsp *ListArticlesReply, err error)
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	Registration(ctx context.Context, req *RegistrationRequest, opts ...http.CallOption) (rsp *RegistrationReply, err error)
@@ -512,8 +513,8 @@ func (c *RealWorldHTTPClientImpl) CreateArticle(ctx context.Context, in *CreateA
 	return &out, err
 }
 
-func (c *RealWorldHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...http.CallOption) (*DeleteArticleReply, error) {
-	var out DeleteArticleReply
+func (c *RealWorldHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...http.CallOption) (*empty.Empty, error) {
+	var out empty.Empty
 	pattern := "/api/articles/{slug}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation("/realworld.v1.RealWorld/DeleteArticle"))
@@ -525,8 +526,8 @@ func (c *RealWorldHTTPClientImpl) DeleteArticle(ctx context.Context, in *DeleteA
 	return &out, err
 }
 
-func (c *RealWorldHTTPClientImpl) DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...http.CallOption) (*DeleteCommentsReply, error) {
-	var out DeleteCommentsReply
+func (c *RealWorldHTTPClientImpl) DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...http.CallOption) (*empty.Empty, error) {
+	var out empty.Empty
 	pattern := "/api/articles/{slug}/comments/{id}"
 	path := binding.EncodeURL(pattern, in, true)
 	opts = append(opts, http.Operation("/realworld.v1.RealWorld/DeleteComments"))
@@ -603,7 +604,7 @@ func (c *RealWorldHTTPClientImpl) GetComments(ctx context.Context, in *GetCommen
 	return &out, err
 }
 
-func (c *RealWorldHTTPClientImpl) GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...http.CallOption) (*GetCurrentUserReply, error) {
+func (c *RealWorldHTTPClientImpl) GetCurrentUser(ctx context.Context, in *empty.Empty, opts ...http.CallOption) (*GetCurrentUserReply, error) {
 	var out GetCurrentUserReply
 	pattern := "/api/user"
 	path := binding.EncodeURL(pattern, in, true)
@@ -629,7 +630,7 @@ func (c *RealWorldHTTPClientImpl) GetProfile(ctx context.Context, in *GetProfile
 	return &out, err
 }
 
-func (c *RealWorldHTTPClientImpl) GetTags(ctx context.Context, in *GetTagsRequest, opts ...http.CallOption) (*GetTagsReply, error) {
+func (c *RealWorldHTTPClientImpl) GetTags(ctx context.Context, in *empty.Empty, opts ...http.CallOption) (*GetTagsReply, error) {
 	var out GetTagsReply
 	pattern := "/api/tags"
 	path := binding.EncodeURL(pattern, in, true)

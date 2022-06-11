@@ -8,6 +8,7 @@ package v1
 
 import (
 	context "context"
+	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -24,7 +25,7 @@ const _ = grpc.SupportPackageIsVersion7
 type RealWorldClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	Registration(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationReply, error)
-	GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...grpc.CallOption) (*GetCurrentUserReply, error)
+	GetCurrentUser(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetCurrentUserReply, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserReply, error)
 	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileReply, error)
 	FollowUser(ctx context.Context, in *FollowUserRequest, opts ...grpc.CallOption) (*FollowUserReply, error)
@@ -34,13 +35,13 @@ type RealWorldClient interface {
 	GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*GetArticleReply, error)
 	CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error)
 	UpdateArticle(ctx context.Context, in *UpdateArticleRequest, opts ...grpc.CallOption) (*UpdateArticleReply, error)
-	DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*DeleteArticleReply, error)
+	DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	AddComments(ctx context.Context, in *AddCommentsRequest, opts ...grpc.CallOption) (*AddCommentsReply, error)
 	GetComments(ctx context.Context, in *GetCommentsRequest, opts ...grpc.CallOption) (*GetCommentsReply, error)
-	DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...grpc.CallOption) (*DeleteCommentsReply, error)
+	DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	FavoriteArticle(ctx context.Context, in *FavoriteArticleRequest, opts ...grpc.CallOption) (*FavoriteArticleReply, error)
 	UnfavoriteArticle(ctx context.Context, in *UnfavoriteArticleRequest, opts ...grpc.CallOption) (*UnfavoriteArticleReply, error)
-	GetTags(ctx context.Context, in *GetTagsRequest, opts ...grpc.CallOption) (*GetTagsReply, error)
+	GetTags(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetTagsReply, error)
 }
 
 type realWorldClient struct {
@@ -69,7 +70,7 @@ func (c *realWorldClient) Registration(ctx context.Context, in *RegistrationRequ
 	return out, nil
 }
 
-func (c *realWorldClient) GetCurrentUser(ctx context.Context, in *GetCurrentUserRequest, opts ...grpc.CallOption) (*GetCurrentUserReply, error) {
+func (c *realWorldClient) GetCurrentUser(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetCurrentUserReply, error) {
 	out := new(GetCurrentUserReply)
 	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/GetCurrentUser", in, out, opts...)
 	if err != nil {
@@ -159,8 +160,8 @@ func (c *realWorldClient) UpdateArticle(ctx context.Context, in *UpdateArticleRe
 	return out, nil
 }
 
-func (c *realWorldClient) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*DeleteArticleReply, error) {
-	out := new(DeleteArticleReply)
+func (c *realWorldClient) DeleteArticle(ctx context.Context, in *DeleteArticleRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/DeleteArticle", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -186,8 +187,8 @@ func (c *realWorldClient) GetComments(ctx context.Context, in *GetCommentsReques
 	return out, nil
 }
 
-func (c *realWorldClient) DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...grpc.CallOption) (*DeleteCommentsReply, error) {
-	out := new(DeleteCommentsReply)
+func (c *realWorldClient) DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
 	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/DeleteComments", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -213,7 +214,7 @@ func (c *realWorldClient) UnfavoriteArticle(ctx context.Context, in *UnfavoriteA
 	return out, nil
 }
 
-func (c *realWorldClient) GetTags(ctx context.Context, in *GetTagsRequest, opts ...grpc.CallOption) (*GetTagsReply, error) {
+func (c *realWorldClient) GetTags(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetTagsReply, error) {
 	out := new(GetTagsReply)
 	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/GetTags", in, out, opts...)
 	if err != nil {
@@ -228,7 +229,7 @@ func (c *realWorldClient) GetTags(ctx context.Context, in *GetTagsRequest, opts 
 type RealWorldServer interface {
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	Registration(context.Context, *RegistrationRequest) (*RegistrationReply, error)
-	GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserReply, error)
+	GetCurrentUser(context.Context, *empty.Empty) (*GetCurrentUserReply, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserReply, error)
 	GetProfile(context.Context, *GetProfileRequest) (*GetProfileReply, error)
 	FollowUser(context.Context, *FollowUserRequest) (*FollowUserReply, error)
@@ -238,13 +239,13 @@ type RealWorldServer interface {
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
 	CreateArticle(context.Context, *CreateArticleRequest) (*CreateArticleReply, error)
 	UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleReply, error)
-	DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleReply, error)
+	DeleteArticle(context.Context, *DeleteArticleRequest) (*empty.Empty, error)
 	AddComments(context.Context, *AddCommentsRequest) (*AddCommentsReply, error)
 	GetComments(context.Context, *GetCommentsRequest) (*GetCommentsReply, error)
-	DeleteComments(context.Context, *DeleteCommentsRequest) (*DeleteCommentsReply, error)
+	DeleteComments(context.Context, *DeleteCommentsRequest) (*empty.Empty, error)
 	FavoriteArticle(context.Context, *FavoriteArticleRequest) (*FavoriteArticleReply, error)
 	UnfavoriteArticle(context.Context, *UnfavoriteArticleRequest) (*UnfavoriteArticleReply, error)
-	GetTags(context.Context, *GetTagsRequest) (*GetTagsReply, error)
+	GetTags(context.Context, *empty.Empty) (*GetTagsReply, error)
 	mustEmbedUnimplementedRealWorldServer()
 }
 
@@ -258,7 +259,7 @@ func (UnimplementedRealWorldServer) Login(context.Context, *LoginRequest) (*Logi
 func (UnimplementedRealWorldServer) Registration(context.Context, *RegistrationRequest) (*RegistrationReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Registration not implemented")
 }
-func (UnimplementedRealWorldServer) GetCurrentUser(context.Context, *GetCurrentUserRequest) (*GetCurrentUserReply, error) {
+func (UnimplementedRealWorldServer) GetCurrentUser(context.Context, *empty.Empty) (*GetCurrentUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCurrentUser not implemented")
 }
 func (UnimplementedRealWorldServer) UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserReply, error) {
@@ -288,7 +289,7 @@ func (UnimplementedRealWorldServer) CreateArticle(context.Context, *CreateArticl
 func (UnimplementedRealWorldServer) UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateArticle not implemented")
 }
-func (UnimplementedRealWorldServer) DeleteArticle(context.Context, *DeleteArticleRequest) (*DeleteArticleReply, error) {
+func (UnimplementedRealWorldServer) DeleteArticle(context.Context, *DeleteArticleRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteArticle not implemented")
 }
 func (UnimplementedRealWorldServer) AddComments(context.Context, *AddCommentsRequest) (*AddCommentsReply, error) {
@@ -297,7 +298,7 @@ func (UnimplementedRealWorldServer) AddComments(context.Context, *AddCommentsReq
 func (UnimplementedRealWorldServer) GetComments(context.Context, *GetCommentsRequest) (*GetCommentsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetComments not implemented")
 }
-func (UnimplementedRealWorldServer) DeleteComments(context.Context, *DeleteCommentsRequest) (*DeleteCommentsReply, error) {
+func (UnimplementedRealWorldServer) DeleteComments(context.Context, *DeleteCommentsRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteComments not implemented")
 }
 func (UnimplementedRealWorldServer) FavoriteArticle(context.Context, *FavoriteArticleRequest) (*FavoriteArticleReply, error) {
@@ -306,7 +307,7 @@ func (UnimplementedRealWorldServer) FavoriteArticle(context.Context, *FavoriteAr
 func (UnimplementedRealWorldServer) UnfavoriteArticle(context.Context, *UnfavoriteArticleRequest) (*UnfavoriteArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UnfavoriteArticle not implemented")
 }
-func (UnimplementedRealWorldServer) GetTags(context.Context, *GetTagsRequest) (*GetTagsReply, error) {
+func (UnimplementedRealWorldServer) GetTags(context.Context, *empty.Empty) (*GetTagsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTags not implemented")
 }
 func (UnimplementedRealWorldServer) mustEmbedUnimplementedRealWorldServer() {}
@@ -359,7 +360,7 @@ func _RealWorld_Registration_Handler(srv interface{}, ctx context.Context, dec f
 }
 
 func _RealWorld_GetCurrentUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetCurrentUserRequest)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -371,7 +372,7 @@ func _RealWorld_GetCurrentUser_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/realworld.v1.RealWorld/GetCurrentUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RealWorldServer).GetCurrentUser(ctx, req.(*GetCurrentUserRequest))
+		return srv.(RealWorldServer).GetCurrentUser(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -647,7 +648,7 @@ func _RealWorld_UnfavoriteArticle_Handler(srv interface{}, ctx context.Context, 
 }
 
 func _RealWorld_GetTags_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTagsRequest)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -659,7 +660,7 @@ func _RealWorld_GetTags_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: "/realworld.v1.RealWorld/GetTags",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RealWorldServer).GetTags(ctx, req.(*GetTagsRequest))
+		return srv.(RealWorldServer).GetTags(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }

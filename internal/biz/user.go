@@ -9,30 +9,36 @@ import (
 )
 
 type User struct {
+	ID           uint
 	Email        string
 	Username     string
 	Bio          string
-	Token        string
 	Image        string
 	Password     string
 	PasswordHash string
+	Token        string
 }
 
 type Profile struct {
+	Username  string
+	Bio       string
+	Image     string
+	Following bool
 }
 
 type UserRepo interface {
 	CreateUser(ctx context.Context, user *User) (*User, error)
-	UpdateUser(ctx context.Context, user *User) (*User, error)
+	UpdateUser(ctx context.Context, id uint, argsMap map[string]interface{}) (*User, error)
+	GetUserByID(ctx context.Context, id uint) (*User, error)
 	GetUserByEmail(ctx context.Context, email string) (*User, error)
 	GetUserByUsername(ctx context.Context, username string) (*User, error)
 	VerifyPassword(password, passwordhash string) bool
 }
 
 type ProfileRepo interface {
-	GetProfileByUsername(ctx context.Context, username string) (*Profile, error)
-	FollowUserByUsername(ctx context.Context, username string) (*Profile, error)
-	UnfollowUserByUsername(ctx context.Context, username string) (*Profile, error)
+	IsFollowing(ctx context.Context, followerID, followingID uint) (bool, error)
+	FollowUser(ctx context.Context, followerID, followingID uint) error
+	UnfollowUser(ctx context.Context, followerID, followingID uint) error
 }
 
 type UserUsecase struct {
@@ -57,10 +63,7 @@ func (uc *UserUsecase) Login(ctx context.Context, email, password string) (*User
 	if !uc.ur.VerifyPassword(password, u.PasswordHash) {
 		return nil, errors.Unauthorized("user", "login failed password error")
 	}
-	token, err := auth.CreateTokenString(uc.confAuth.Secret, u.Username)
-	if err != nil {
-		return nil, errors.InternalServer("token", "create token fail")
-	}
+	token := auth.CreateTokenString(uc.confAuth.Secret, u.Email, u.Username, u.ID)
 	return &User{
 		Email:    u.Email,
 		Username: u.Username,
@@ -87,25 +90,85 @@ func (uc *UserUsecase) GetCurrentUser(ctx context.Context) (*User, error) {
 	if !ok {
 		return nil, errors.New(500, "user", "failed to get current user from context")
 	}
-	u, err := uc.ur.GetUserByUsername(ctx, cu.Username)
+	u, err := uc.ur.GetUserByID(ctx, cu.ID)
 	if err != nil {
 		return nil, err
 	}
 	return u, nil
 }
 
-func (uc *UserUsecase) UpdateUser(ctx context.Context, u *User) error {
-	return nil
+func (uc *UserUsecase) UpdateUser(ctx context.Context, argsMap map[string]interface{}) (*User, error) {
+	cu, ok := auth.FromContext(ctx)
+	if !ok {
+		return nil, errors.New(500, "user", "failed to get current user from context")
+	}
+	u, err := uc.ur.UpdateUser(ctx, cu.ID, argsMap)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
 }
 
-func (uc *UserUsecase) GetProfile(ctx context.Context, u *User) error {
-	return nil
+func (uc *UserUsecase) GetProfile(ctx context.Context, username string) (*Profile, error) {
+	cu, ok := auth.FromContext(ctx)
+	if !ok {
+		return nil, errors.New(500, "user", "failed to get current user from context")
+	}
+	fu, err := uc.ur.GetUserByUsername(ctx, username)
+	if err != nil {
+		return nil, err
+	}
+	result, err := uc.pr.IsFollowing(ctx, cu.ID, fu.ID)
+	if err != nil {
+		return nil, err
+	}
+	return &Profile{
+		Username:  fu.Username,
+		Bio:       fu.Bio,
+		Image:     fu.Image,
+		Following: result,
+	}, nil
 }
 
-func (uc *UserUsecase) FollowUser(ctx context.Context, u *User) error {
-	return nil
+func (uc *UserUsecase) FollowUser(ctx context.Context, username string) (*Profile, error) {
+	cu, ok := auth.FromContext(ctx)
+	if !ok {
+		return nil, errors.New(500, "user", "failed to get current user from context")
+	}
+	fu, err := uc.ur.GetUserByUsername(ctx, username)
+	if err != nil {
+		return nil, err
+	}
+	if err := uc.pr.FollowUser(ctx, cu.ID, fu.ID); err != nil {
+		return nil, err
+	}
+	return &Profile{
+		Username:  fu.Username,
+		Bio:       fu.Bio,
+		Image:     fu.Image,
+		Following: true,
+	}, nil
 }
 
-func (uc *UserUsecase) UnfollowUser(ctx context.Context, u *User) error {
-	return nil
+func (uc *UserUsecase) UnfollowUser(ctx context.Context, username string) (*Profile, error) {
+	cu, ok := auth.FromContext(ctx)
+	if !ok {
+		return nil, errors.New(500, "user", "failed to get current user from context")
+	}
+	fu, err := uc.ur.GetUserByUsername(ctx, username)
+	if err != nil {
+		return nil, err
+	}
+	if err := uc.pr.UnfollowUser(ctx, cu.ID, fu.ID); err != nil {
+		return nil, err
+	}
+	if err != nil {
+		return nil, err
+	}
+	return &Profile{
+		Username:  fu.Username,
+		Bio:       fu.Bio,
+		Image:     fu.Image,
+		Following: false,
+	}, nil
 }

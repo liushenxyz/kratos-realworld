@@ -4,6 +4,7 @@ package realworld.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 import "protoc-gen-openapiv2/options/annotations.proto";
 
 option go_package = "realworld/api/realworld/v1;v1";
@@ -39,7 +40,7 @@ service RealWorld {
     };
   }
 
-  rpc GetCurrentUser (GetCurrentUserRequest) returns (GetCurrentUserReply) {
+  rpc GetCurrentUser (google.protobuf.Empty) returns (GetCurrentUserReply) {
     option (google.api.http) = {
       get: "/api/user",
     };
@@ -175,7 +176,7 @@ service RealWorld {
     };
   }
 
-  rpc DeleteArticle (DeleteArticleRequest) returns (DeleteArticleReply) {
+  rpc DeleteArticle (DeleteArticleRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/api/articles/{slug}",
     };
@@ -218,7 +219,7 @@ service RealWorld {
     };
   }
 
-  rpc DeleteComments (DeleteCommentsRequest) returns (DeleteCommentsReply) {
+  rpc DeleteComments (DeleteCommentsRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       delete: "/api/articles/{slug}/comments/{id}",
     };
@@ -261,7 +262,7 @@ service RealWorld {
     };
   }
 
-  rpc GetTags (GetTagsRequest) returns (GetTagsReply) {
+  rpc GetTags (google.protobuf.Empty) returns (GetTagsReply) {
     option (google.api.http) = {
       get: "/api/tags",
     };
@@ -348,9 +349,6 @@ message RegistrationReply {
 }
 
 
-message GetCurrentUserRequest {
-}
-
 message GetCurrentUserReply {
   User user = 1;
 }
@@ -358,11 +356,11 @@ message GetCurrentUserReply {
 
 message UpdateUserRequest {
   message User {
-    string email = 1;
-    string username = 2;
-    string password = 3;
-    string bio = 4;
-    string image = 5;
+    optional string email = 1;
+    optional string username = 2;
+    optional string password = 3;
+    optional string bio = 4;
+    optional string image = 5;
   }
   User user = 1;
 }
@@ -468,9 +466,6 @@ message DeleteArticleRequest {
   string slug = 1;
 }
 
-message DeleteArticleReply {
-}
-
 
 message AddCommentsRequest {
   message Comment {
@@ -499,9 +494,6 @@ message DeleteCommentsRequest {
   int64 id = 2;
 }
 
-message DeleteCommentsReply {
-}
-
 
 message FavoriteArticleRequest {
   string slug = 1;
@@ -520,9 +512,6 @@ message UnfavoriteArticleReply {
   Article article = 1;
 }
 
-
-message GetTagsRequest {
-}
 
 message GetTagsReply {
   repeated string tags = 1;
