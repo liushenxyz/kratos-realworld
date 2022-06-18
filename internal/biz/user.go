@@ -86,10 +86,7 @@ func (uc *UserUsecase) CreateUser(ctx context.Context, username, email, password
 }
 
 func (uc *UserUsecase) GetCurrentUser(ctx context.Context) (*User, error) {
-	cu, ok := auth.FromContext(ctx)
-	if !ok {
-		return nil, errors.New(500, "user", "failed to get current user from context")
-	}
+	cu := auth.FromContext(ctx)
 	u, err := uc.ur.GetUserByID(ctx, cu.ID)
 	if err != nil {
 		return nil, err
@@ -98,10 +95,7 @@ func (uc *UserUsecase) GetCurrentUser(ctx context.Context) (*User, error) {
 }
 
 func (uc *UserUsecase) UpdateUser(ctx context.Context, argsMap map[string]interface{}) (*User, error) {
-	cu, ok := auth.FromContext(ctx)
-	if !ok {
-		return nil, errors.New(500, "user", "failed to get current user from context")
-	}
+	cu := auth.FromContext(ctx)
 	u, err := uc.ur.UpdateUser(ctx, cu.ID, argsMap)
 	if err != nil {
 		return nil, err
@@ -110,10 +104,7 @@ func (uc *UserUsecase) UpdateUser(ctx context.Context, argsMap map[string]interf
 }
 
 func (uc *UserUsecase) GetProfile(ctx context.Context, username string) (*Profile, error) {
-	cu, ok := auth.FromContext(ctx)
-	if !ok {
-		return nil, errors.New(500, "user", "failed to get current user from context")
-	}
+	cu := auth.FromContext(ctx)
 	fu, err := uc.ur.GetUserByUsername(ctx, username)
 	if err != nil {
 		return nil, err
@@ -131,10 +122,7 @@ func (uc *UserUsecase) GetProfile(ctx context.Context, username string) (*Profil
 }
 
 func (uc *UserUsecase) FollowUser(ctx context.Context, username string) (*Profile, error) {
-	cu, ok := auth.FromContext(ctx)
-	if !ok {
-		return nil, errors.New(500, "user", "failed to get current user from context")
-	}
+	cu := auth.FromContext(ctx)
 	fu, err := uc.ur.GetUserByUsername(ctx, username)
 	if err != nil {
 		return nil, err
@@ -151,10 +139,7 @@ func (uc *UserUsecase) FollowUser(ctx context.Context, username string) (*Profil
 }
 
 func (uc *UserUsecase) UnfollowUser(ctx context.Context, username string) (*Profile, error) {
-	cu, ok := auth.FromContext(ctx)
-	if !ok {
-		return nil, errors.New(500, "user", "failed to get current user from context")
-	}
+	cu := auth.FromContext(ctx)
 	fu, err := uc.ur.GetUserByUsername(ctx, username)
 	if err != nil {
 		return nil, err
