@@ -79,7 +79,39 @@ func (s *RealWorldService) CreateArticle(ctx context.Context, in *pb.CreateArtic
 
 func (s *RealWorldService) UpdateArticle(ctx context.Context, in *pb.UpdateArticleRequest) (*pb.UpdateArticleReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.UpdateArticleReply{}, nil
+	var argsMap = map[string]interface{}{}
+	if in.Article.Title != nil {
+		argsMap["Title"] = *in.Article.Title
+	}
+	if in.Article.Description != nil {
+		argsMap["Description"] = *in.Article.Description
+	}
+	if in.Article.Body != nil {
+		argsMap["Body"] = *in.Article.Body
+	}
+	bizArticle, err := s.ac.UpdateArticle(ctx, in.Slug, argsMap)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UpdateArticleReply{
+		Article: &pb.Article{
+			Slug:           bizArticle.Slug,
+			Title:          bizArticle.Title,
+			Description:    bizArticle.Description,
+			Body:           bizArticle.Body,
+			TagList:        bizArticle.TagList,
+			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
+			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
+			Favorited:      bizArticle.Favorited,
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
+			Author: &pb.Author{
+				Username:  bizArticle.Author.Username,
+				Bio:       bizArticle.Author.Bio,
+				Image:     bizArticle.Author.Image,
+				Following: bizArticle.Author.Following,
+			},
+		},
+	}, nil
 }
 
 func (s *RealWorldService) DeleteArticle(ctx context.Context, in *pb.DeleteArticleRequest) (*empty.Empty, error) {

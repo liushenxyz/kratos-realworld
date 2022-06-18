@@ -448,10 +448,9 @@ message CreateArticleReply {
 
 message UpdateArticleRequest {
   message Article {
-    string title = 1;
-    string description = 2;
-    string body = 3;
-    repeated string tagList = 4;
+    optional string title = 1;
+    optional string description = 2;
+    optional string body = 3;
   }
   string slug = 1;
   Article article = 2;

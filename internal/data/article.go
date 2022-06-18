@@ -51,6 +51,7 @@ func (r *articleRepo) CreateArticle(ctx context.Context, bizArticle *biz.Article
 		return nil, err
 	}
 
+	bizArticle.ID = article.ID
 	bizArticle.CreatedAt = article.CreatedAt
 	bizArticle.UpdatedAt = article.UpdatedAt
 	bizArticle.FavoritesCount = uint(len(article.Favorites))
@@ -69,41 +70,18 @@ func (r *articleRepo) CreateArticle(ctx context.Context, bizArticle *biz.Article
 	return bizArticle, nil
 }
 
-func (r *articleRepo) ListArticle(ctx context.Context) ([]*biz.Article, error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (r *articleRepo) UpdateArticleBySlug(ctx context.Context, article *biz.Article) (*biz.Article, error) {
-	var po model.Article
-	if result := r.data.db.First(&po); result.Error != nil {
-		return nil, result.Error
-	}
-	err := r.data.db.Model(&po).Updates(article).Error
-	return article, err
-}
-
-func (r *articleRepo) DeleteArticleBySlug(ctx context.Context, slug string) error {
-	//TODO 软删除与唯一索引冲突
-
-	err := r.data.db.Where(&model.Article{Slug: slug}).Delete(&model.Article{}).Error
-	if err != nil {
-		return errors.InternalServer("article", err.Error())
-	}
-	return nil
-}
-
-func (r *articleRepo) GetArticleBySlug(ctx context.Context, slug string) (*biz.Article, error) {
+func (r *articleRepo) UpdateArticleBySlug(ctx context.Context, id uint, argsMap map[string]interface{}) (*biz.Article, error) {
 	var article model.Article
-	err := r.data.db.Where(&model.Article{Slug: slug}).Preload("Favorites").Preload("Tags").Preload("Author").First(&article).Error
-	if err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.NotFound("article", "not found by slug")
-		}
+	if err := r.data.db.First(&article, id).Updates(argsMap).Error; err != nil {
+		return nil, errors.InternalServer("article", err.Error())
+	}
+
+	if err := r.data.db.Where(article.ID).Preload("Favorites").Preload("Tags").Preload("Author").First(&article).Error; err != nil {
 		return nil, err
 	}
 
 	var bizArticle biz.Article
+	bizArticle.ID = article.ID
 	bizArticle.CreatedAt = article.CreatedAt
 	bizArticle.UpdatedAt = article.UpdatedAt
 	bizArticle.Slug = article.Slug
@@ -127,6 +105,58 @@ func (r *articleRepo) GetArticleBySlug(ctx context.Context, slug string) (*biz.A
 		bizArticle.TagList = append(bizArticle.TagList, article.Tags[i].Tag)
 	}
 	return &bizArticle, nil
+}
+
+func (r *articleRepo) DeleteArticleBySlug(ctx context.Context, slug string) error {
+	//TODO 软删除与唯一索引冲突
+
+	err := r.data.db.Where(&model.Article{Slug: slug}).Delete(&model.Article{}).Error
+	if err != nil {
+		return errors.InternalServer("article", err.Error())
+	}
+	return nil
+}
+
+func (r *articleRepo) GetArticleBySlug(ctx context.Context, slug string) (*biz.Article, error) {
+	var article model.Article
+	err := r.data.db.Where(&model.Article{Slug: slug}).Preload("Favorites").Preload("Tags").Preload("Author").First(&article).Error
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errors.NotFound("article", "not found by slug")
+		}
+		return nil, err
+	}
+
+	var bizArticle biz.Article
+	bizArticle.ID = article.ID
+	bizArticle.CreatedAt = article.CreatedAt
+	bizArticle.UpdatedAt = article.UpdatedAt
+	bizArticle.Slug = article.Slug
+	bizArticle.Title = article.Title
+	bizArticle.Description = article.Description
+	bizArticle.Body = article.Body
+	bizArticle.FavoritesCount = uint(len(article.Favorites))
+	cu := auth.FromContext(ctx)
+	for _, u := range article.Favorites {
+		if u.ID == cu.ID {
+			bizArticle.Favorited = true
+		}
+	}
+	bizArticle.Author = &biz.Profile{
+		Username:  article.Author.Username,
+		Bio:       article.Author.Bio,
+		Image:     article.Author.Image,
+		Following: false,
+	}
+	for i := range article.Tags {
+		bizArticle.TagList = append(bizArticle.TagList, article.Tags[i].Tag)
+	}
+	return &bizArticle, nil
+}
+
+func (r *articleRepo) ListArticle(ctx context.Context) ([]*biz.Article, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func (r *articleRepo) FavoriteArticle(ctx context.Context, slug string) error {

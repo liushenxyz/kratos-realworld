@@ -3,7 +3,7 @@ package biz
 import (
 	"context"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/gosimple/slug"
+	gs "github.com/gosimple/slug"
 	"realworld/internal/pkg/middleware/auth"
 	"time"
 )
@@ -45,7 +45,7 @@ type Tag string
 
 type ArticleRepo interface {
 	CreateArticle(ctx context.Context, article *Article) (*Article, error)
-	UpdateArticleBySlug(ctx context.Context, article *Article) (*Article, error)
+	UpdateArticleBySlug(ctx context.Context, id uint, argsMap map[string]interface{}) (*Article, error)
 	DeleteArticleBySlug(ctx context.Context, slug string) error
 	GetArticleBySlug(ctx context.Context, slug string) (*Article, error)
 	ListArticle(ctx context.Context) ([]*Article, error)
@@ -76,14 +76,6 @@ func NewArticleUsecase(ar ArticleRepo, cr CommentRepo, tr TagRepo, logger log.Lo
 	return &ArticleUsecase{ar: ar, cr: cr, tr: tr, log: log.NewHelper(logger)}
 }
 
-func (ac *ArticleUsecase) ListArticles(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
-}
-
-func (ac *ArticleUsecase) FeedArticles(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
-}
-
 func (ac *ArticleUsecase) GetArticle(ctx context.Context, slug string) (*Article, error) {
 	//TODO Author.Following
 
@@ -93,18 +85,43 @@ func (ac *ArticleUsecase) GetArticle(ctx context.Context, slug string) (*Article
 func (ac *ArticleUsecase) CreateArticle(ctx context.Context, article *Article) (*Article, error) {
 	cu := auth.FromContext(ctx)
 	article.AuthorID = cu.ID
-	article.Slug = slug.Make(article.Title)
+	article.Slug = gs.Make(article.Title)
 	//TODO Author.Following
 
 	return ac.ar.CreateArticle(ctx, article)
 }
 
-func (ac *ArticleUsecase) UpdateArticle(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
+func (ac *ArticleUsecase) UpdateArticle(ctx context.Context, slug string, argsMap map[string]interface{}) (*Article, error) {
+	article, err := ac.ar.GetArticleBySlug(ctx, slug)
+	if err != nil {
+		return nil, err
+	}
+	if argsMap["Title"] != nil {
+		argsMap["Slug"] = gs.Make(argsMap["Title"].(string))
+	}
+	//TODO Author.Following
+
+	return ac.ar.UpdateArticleBySlug(ctx, article.ID, argsMap)
 }
 
 func (ac *ArticleUsecase) DeleteArticle(ctx context.Context, slug string) error {
 	return ac.ar.DeleteArticleBySlug(ctx, slug)
+}
+
+func (ac *ArticleUsecase) ListArticles(ctx context.Context, a *Article) (*Article, error) {
+	return nil, nil
+}
+
+func (ac *ArticleUsecase) FeedArticles(ctx context.Context, a *Article) (*Article, error) {
+	return nil, nil
+}
+
+func (ac *ArticleUsecase) FavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
+	return nil, nil
+}
+
+func (ac *ArticleUsecase) UnfavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
+	return nil, nil
 }
 
 func (ac *ArticleUsecase) AddComments(ctx context.Context, a *Article) (*Article, error) {
@@ -116,14 +133,6 @@ func (ac *ArticleUsecase) GetComments(ctx context.Context, a *Article) (*Article
 }
 
 func (ac *ArticleUsecase) DeleteComments(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
-}
-
-func (ac *ArticleUsecase) FavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
-}
-
-func (ac *ArticleUsecase) UnfavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
 	return nil, nil
 }
 
