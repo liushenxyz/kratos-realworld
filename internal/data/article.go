@@ -225,7 +225,7 @@ func (r *articleRepo) FavoriteArticle(ctx context.Context, slug string) error {
 	panic("implement me")
 }
 
-func (r *articleRepo) UnfavoriteArticle(ctx context.Context, slug string) error {
+func (r *articleRepo) UnFavoriteArticle(ctx context.Context, slug string) error {
 	//TODO implement me
 	panic("implement me")
 }

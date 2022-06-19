@@ -134,13 +134,13 @@ func (s *RealWorldService) FollowUser(ctx context.Context, in *pb.FollowUserRequ
 	}, nil
 }
 
-func (s *RealWorldService) UnfollowUser(ctx context.Context, in *pb.UnfollowUserRequest) (*pb.UnfollowUserReply, error) {
+func (s *RealWorldService) UnFollowUser(ctx context.Context, in *pb.UnFollowUserRequest) (*pb.UnFollowUserReply, error) {
 	s.log.Infof("input data %v", in)
-	p, err := s.uc.UnfollowUser(ctx, in.Username)
+	p, err := s.uc.UnFollowUser(ctx, in.Username)
 	if err != nil {
 		return nil, err
 	}
-	return &pb.UnfollowUserReply{
+	return &pb.UnFollowUserReply{
 		Profile: &pb.Profile{
 			Profile: &pb.Profile_Profile{
 				Username:  p.Username,

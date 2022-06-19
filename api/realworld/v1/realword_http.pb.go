@@ -34,8 +34,8 @@ type RealWorldHTTPServer interface {
 	ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error)
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	Registration(context.Context, *RegistrationRequest) (*RegistrationReply, error)
-	UnfavoriteArticle(context.Context, *UnfavoriteArticleRequest) (*UnfavoriteArticleReply, error)
-	UnfollowUser(context.Context, *UnfollowUserRequest) (*UnfollowUserReply, error)
+	UnFavoriteArticle(context.Context, *UnFavoriteArticleRequest) (*UnFavoriteArticleReply, error)
+	UnFollowUser(context.Context, *UnFollowUserRequest) (*UnFollowUserReply, error)
 	UpdateArticle(context.Context, *UpdateArticleRequest) (*UpdateArticleReply, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserReply, error)
 }
@@ -48,7 +48,7 @@ func RegisterRealWorldHTTPServer(s *http.Server, srv RealWorldHTTPServer) {
 	r.PUT("/api/user", _RealWorld_UpdateUser0_HTTP_Handler(srv))
 	r.GET("/api/profiles/{username}", _RealWorld_GetProfile0_HTTP_Handler(srv))
 	r.POST("/api/profiles/{username}/follow", _RealWorld_FollowUser0_HTTP_Handler(srv))
-	r.DELETE("/api/profiles/{username}/follow", _RealWorld_UnfollowUser0_HTTP_Handler(srv))
+	r.DELETE("/api/profiles/{username}/follow", _RealWorld_UnFollowUser0_HTTP_Handler(srv))
 	r.GET("/api/articles", _RealWorld_ListArticles0_HTTP_Handler(srv))
 	r.GET("/api/articles/feed", _RealWorld_FeedArticles0_HTTP_Handler(srv))
 	r.GET("/api/articles/{slug}", _RealWorld_GetArticle0_HTTP_Handler(srv))
@@ -59,7 +59,7 @@ func RegisterRealWorldHTTPServer(s *http.Server, srv RealWorldHTTPServer) {
 	r.GET("/api/articles/{slug}/comments", _RealWorld_GetComments0_HTTP_Handler(srv))
 	r.DELETE("/api/articles/{slug}/comments/{id}", _RealWorld_DeleteComments0_HTTP_Handler(srv))
 	r.POST("/api/articles/{slug}/favorite", _RealWorld_FavoriteArticle0_HTTP_Handler(srv))
-	r.DELETE("/api/articles/{slug}/favorite", _RealWorld_UnfavoriteArticle0_HTTP_Handler(srv))
+	r.DELETE("/api/articles/{slug}/favorite", _RealWorld_UnFavoriteArticle0_HTTP_Handler(srv))
 	r.GET("/api/tags", _RealWorld_GetTags0_HTTP_Handler(srv))
 }
 
@@ -183,24 +183,24 @@ func _RealWorld_FollowUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.
 	}
 }
 
-func _RealWorld_UnfollowUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
+func _RealWorld_UnFollowUser0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in UnfollowUserRequest
+		var in UnFollowUserRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realworld.v1.RealWorld/UnfollowUser")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/UnFollowUser")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UnfollowUser(ctx, req.(*UnfollowUserRequest))
+			return srv.UnFollowUser(ctx, req.(*UnFollowUserRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*UnfollowUserReply)
+		reply := out.(*UnFollowUserReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -416,24 +416,24 @@ func _RealWorld_FavoriteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx 
 	}
 }
 
-func _RealWorld_UnfavoriteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
+func _RealWorld_UnFavoriteArticle0_HTTP_Handler(srv RealWorldHTTPServer) func(ctx http.Context) error {
 	return func(ctx http.Context) error {
-		var in UnfavoriteArticleRequest
+		var in UnFavoriteArticleRequest
 		if err := ctx.BindQuery(&in); err != nil {
 			return err
 		}
 		if err := ctx.BindVars(&in); err != nil {
 			return err
 		}
-		http.SetOperation(ctx, "/realworld.v1.RealWorld/UnfavoriteArticle")
+		http.SetOperation(ctx, "/realworld.v1.RealWorld/UnFavoriteArticle")
 		h := ctx.Middleware(func(ctx context.Context, req interface{}) (interface{}, error) {
-			return srv.UnfavoriteArticle(ctx, req.(*UnfavoriteArticleRequest))
+			return srv.UnFavoriteArticle(ctx, req.(*UnFavoriteArticleRequest))
 		})
 		out, err := h(ctx, &in)
 		if err != nil {
 			return err
 		}
-		reply := out.(*UnfavoriteArticleReply)
+		reply := out.(*UnFavoriteArticleReply)
 		return ctx.Result(200, reply)
 	}
 }
@@ -473,8 +473,8 @@ type RealWorldHTTPClient interface {
 	ListArticles(ctx context.Context, req *ListArticlesRequest, opts ...http.CallOption) (rsp *ListArticlesReply, err error)
 	Login(ctx context.Context, req *LoginRequest, opts ...http.CallOption) (rsp *LoginReply, err error)
 	Registration(ctx context.Context, req *RegistrationRequest, opts ...http.CallOption) (rsp *RegistrationReply, err error)
-	UnfavoriteArticle(ctx context.Context, req *UnfavoriteArticleRequest, opts ...http.CallOption) (rsp *UnfavoriteArticleReply, err error)
-	UnfollowUser(ctx context.Context, req *UnfollowUserRequest, opts ...http.CallOption) (rsp *UnfollowUserReply, err error)
+	UnFavoriteArticle(ctx context.Context, req *UnFavoriteArticleRequest, opts ...http.CallOption) (rsp *UnFavoriteArticleReply, err error)
+	UnFollowUser(ctx context.Context, req *UnFollowUserRequest, opts ...http.CallOption) (rsp *UnFollowUserReply, err error)
 	UpdateArticle(ctx context.Context, req *UpdateArticleRequest, opts ...http.CallOption) (rsp *UpdateArticleReply, err error)
 	UpdateUser(ctx context.Context, req *UpdateUserRequest, opts ...http.CallOption) (rsp *UpdateUserReply, err error)
 }
@@ -682,11 +682,11 @@ func (c *RealWorldHTTPClientImpl) Registration(ctx context.Context, in *Registra
 	return &out, err
 }
 
-func (c *RealWorldHTTPClientImpl) UnfavoriteArticle(ctx context.Context, in *UnfavoriteArticleRequest, opts ...http.CallOption) (*UnfavoriteArticleReply, error) {
-	var out UnfavoriteArticleReply
+func (c *RealWorldHTTPClientImpl) UnFavoriteArticle(ctx context.Context, in *UnFavoriteArticleRequest, opts ...http.CallOption) (*UnFavoriteArticleReply, error) {
+	var out UnFavoriteArticleReply
 	pattern := "/api/articles/{slug}/favorite"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UnfavoriteArticle"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UnFavoriteArticle"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {
@@ -695,11 +695,11 @@ func (c *RealWorldHTTPClientImpl) UnfavoriteArticle(ctx context.Context, in *Unf
 	return &out, err
 }
 
-func (c *RealWorldHTTPClientImpl) UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...http.CallOption) (*UnfollowUserReply, error) {
-	var out UnfollowUserReply
+func (c *RealWorldHTTPClientImpl) UnFollowUser(ctx context.Context, in *UnFollowUserRequest, opts ...http.CallOption) (*UnFollowUserReply, error) {
+	var out UnFollowUserReply
 	pattern := "/api/profiles/{username}/follow"
 	path := binding.EncodeURL(pattern, in, true)
-	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UnfollowUser"))
+	opts = append(opts, http.Operation("/realworld.v1.RealWorld/UnFollowUser"))
 	opts = append(opts, http.PathTemplate(pattern))
 	err := c.cc.Invoke(ctx, "DELETE", path, nil, &out, opts...)
 	if err != nil {

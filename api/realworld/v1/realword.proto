@@ -98,7 +98,7 @@ service RealWorld {
     };
   }
 
-  rpc UnfollowUser (UnfollowUserRequest) returns (UnfollowUserReply) {
+  rpc UnFollowUser (UnFollowUserRequest) returns (UnFollowUserReply) {
     option (google.api.http) = {
       delete: "/api/profiles/{username}/follow",
     };
@@ -248,7 +248,7 @@ service RealWorld {
     };
   }
 
-  rpc UnfavoriteArticle (UnfavoriteArticleRequest) returns (UnfavoriteArticleReply) {
+  rpc UnFavoriteArticle (UnFavoriteArticleRequest) returns (UnFavoriteArticleReply) {
     option (google.api.http) = {
       delete: "/api/articles/{slug}/favorite",
     };
@@ -388,11 +388,11 @@ message FollowUserReply {
 }
 
 
-message UnfollowUserRequest {
+message UnFollowUserRequest {
   string username =1;
 }
 
-message UnfollowUserReply {
+message UnFollowUserReply {
   Profile profile = 1;
 }
 
@@ -503,11 +503,11 @@ message FavoriteArticleReply {
 }
 
 
-message UnfavoriteArticleRequest {
+message UnFavoriteArticleRequest {
   string slug = 1;
 }
 
-message UnfavoriteArticleReply {
+message UnFavoriteArticleReply {
   Article article = 1;
 }
 

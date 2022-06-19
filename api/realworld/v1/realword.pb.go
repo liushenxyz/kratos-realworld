@@ -904,7 +904,7 @@ func (x *FollowUserReply) GetProfile() *Profile {
 	return nil
 }
 
-type UnfollowUserRequest struct {
+type UnFollowUserRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -912,8 +912,8 @@ type UnfollowUserRequest struct {
 	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
 }
 
-func (x *UnfollowUserRequest) Reset() {
-	*x = UnfollowUserRequest{}
+func (x *UnFollowUserRequest) Reset() {
+	*x = UnFollowUserRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_realworld_v1_realword_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -921,13 +921,13 @@ func (x *UnfollowUserRequest) Reset() {
 	}
 }
 
-func (x *UnfollowUserRequest) String() string {
+func (x *UnFollowUserRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UnfollowUserRequest) ProtoMessage() {}
+func (*UnFollowUserRequest) ProtoMessage() {}
 
-func (x *UnfollowUserRequest) ProtoReflect() protoreflect.Message {
+func (x *UnFollowUserRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_realworld_v1_realword_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -939,19 +939,19 @@ func (x *UnfollowUserRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UnfollowUserRequest.ProtoReflect.Descriptor instead.
-func (*UnfollowUserRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UnFollowUserRequest.ProtoReflect.Descriptor instead.
+func (*UnFollowUserRequest) Descriptor() ([]byte, []int) {
 	return file_realworld_v1_realword_proto_rawDescGZIP(), []int{16}
 }
 
-func (x *UnfollowUserRequest) GetUsername() string {
+func (x *UnFollowUserRequest) GetUsername() string {
 	if x != nil {
 		return x.Username
 	}
 	return ""
 }
 
-type UnfollowUserReply struct {
+type UnFollowUserReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -959,8 +959,8 @@ type UnfollowUserReply struct {
 	Profile *Profile `protobuf:"bytes,1,opt,name=profile,proto3" json:"profile,omitempty"`
 }
 
-func (x *UnfollowUserReply) Reset() {
-	*x = UnfollowUserReply{}
+func (x *UnFollowUserReply) Reset() {
+	*x = UnFollowUserReply{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_realworld_v1_realword_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -968,13 +968,13 @@ func (x *UnfollowUserReply) Reset() {
 	}
 }
 
-func (x *UnfollowUserReply) String() string {
+func (x *UnFollowUserReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UnfollowUserReply) ProtoMessage() {}
+func (*UnFollowUserReply) ProtoMessage() {}
 
-func (x *UnfollowUserReply) ProtoReflect() protoreflect.Message {
+func (x *UnFollowUserReply) ProtoReflect() protoreflect.Message {
 	mi := &file_realworld_v1_realword_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -986,12 +986,12 @@ func (x *UnfollowUserReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UnfollowUserReply.ProtoReflect.Descriptor instead.
-func (*UnfollowUserReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use UnFollowUserReply.ProtoReflect.Descriptor instead.
+func (*UnFollowUserReply) Descriptor() ([]byte, []int) {
 	return file_realworld_v1_realword_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *UnfollowUserReply) GetProfile() *Profile {
+func (x *UnFollowUserReply) GetProfile() *Profile {
 	if x != nil {
 		return x.Profile
 	}
@@ -1924,7 +1924,7 @@ func (x *FavoriteArticleReply) GetArticle() *Article {
 	return nil
 }
 
-type UnfavoriteArticleRequest struct {
+type UnFavoriteArticleRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1932,8 +1932,8 @@ type UnfavoriteArticleRequest struct {
 	Slug string `protobuf:"bytes,1,opt,name=slug,proto3" json:"slug,omitempty"`
 }
 
-func (x *UnfavoriteArticleRequest) Reset() {
-	*x = UnfavoriteArticleRequest{}
+func (x *UnFavoriteArticleRequest) Reset() {
+	*x = UnFavoriteArticleRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_realworld_v1_realword_proto_msgTypes[36]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1941,13 +1941,13 @@ func (x *UnfavoriteArticleRequest) Reset() {
 	}
 }
 
-func (x *UnfavoriteArticleRequest) String() string {
+func (x *UnFavoriteArticleRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UnfavoriteArticleRequest) ProtoMessage() {}
+func (*UnFavoriteArticleRequest) ProtoMessage() {}
 
-func (x *UnfavoriteArticleRequest) ProtoReflect() protoreflect.Message {
+func (x *UnFavoriteArticleRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_realworld_v1_realword_proto_msgTypes[36]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1959,19 +1959,19 @@ func (x *UnfavoriteArticleRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UnfavoriteArticleRequest.ProtoReflect.Descriptor instead.
-func (*UnfavoriteArticleRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UnFavoriteArticleRequest.ProtoReflect.Descriptor instead.
+func (*UnFavoriteArticleRequest) Descriptor() ([]byte, []int) {
 	return file_realworld_v1_realword_proto_rawDescGZIP(), []int{36}
 }
 
-func (x *UnfavoriteArticleRequest) GetSlug() string {
+func (x *UnFavoriteArticleRequest) GetSlug() string {
 	if x != nil {
 		return x.Slug
 	}
 	return ""
 }
 
-type UnfavoriteArticleReply struct {
+type UnFavoriteArticleReply struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1979,8 +1979,8 @@ type UnfavoriteArticleReply struct {
 	Article *Article `protobuf:"bytes,1,opt,name=article,proto3" json:"article,omitempty"`
 }
 
-func (x *UnfavoriteArticleReply) Reset() {
-	*x = UnfavoriteArticleReply{}
+func (x *UnFavoriteArticleReply) Reset() {
+	*x = UnFavoriteArticleReply{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_realworld_v1_realword_proto_msgTypes[37]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1988,13 +1988,13 @@ func (x *UnfavoriteArticleReply) Reset() {
 	}
 }
 
-func (x *UnfavoriteArticleReply) String() string {
+func (x *UnFavoriteArticleReply) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UnfavoriteArticleReply) ProtoMessage() {}
+func (*UnFavoriteArticleReply) ProtoMessage() {}
 
-func (x *UnfavoriteArticleReply) ProtoReflect() protoreflect.Message {
+func (x *UnFavoriteArticleReply) ProtoReflect() protoreflect.Message {
 	mi := &file_realworld_v1_realword_proto_msgTypes[37]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2006,12 +2006,12 @@ func (x *UnfavoriteArticleReply) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UnfavoriteArticleReply.ProtoReflect.Descriptor instead.
-func (*UnfavoriteArticleReply) Descriptor() ([]byte, []int) {
+// Deprecated: Use UnFavoriteArticleReply.ProtoReflect.Descriptor instead.
+func (*UnFavoriteArticleReply) Descriptor() ([]byte, []int) {
 	return file_realworld_v1_realword_proto_rawDescGZIP(), []int{37}
 }
 
-func (x *UnfavoriteArticleReply) GetArticle() *Article {
+func (x *UnFavoriteArticleReply) GetArticle() *Article {
 	if x != nil {
 		return x.Article
 	}
@@ -2738,10 +2738,10 @@ var file_realworld_v1_realword_proto_rawDesc = []byte{
 	0x12, 0x2f, 0x0a, 0x07, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x15, 0x2e, 0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x76, 0x31,
 	0x2e, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x52, 0x07, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c,
-	0x65, 0x22, 0x31, 0x0a, 0x13, 0x55, 0x6e, 0x66, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65,
+	0x65, 0x22, 0x31, 0x0a, 0x13, 0x55, 0x6e, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65,
 	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1a, 0x0a, 0x08, 0x75, 0x73, 0x65, 0x72,
 	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72,
-	0x6e, 0x61, 0x6d, 0x65, 0x22, 0x44, 0x0a, 0x11, 0x55, 0x6e, 0x66, 0x6f, 0x6c, 0x6c, 0x6f, 0x77,
+	0x6e, 0x61, 0x6d, 0x65, 0x22, 0x44, 0x0a, 0x11, 0x55, 0x6e, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77,
 	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x2f, 0x0a, 0x07, 0x70, 0x72, 0x6f,
 	0x66, 0x69, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x72, 0x65, 0x61,
 	0x6c, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x50, 0x72, 0x6f, 0x66, 0x69, 0x6c,
@@ -2851,10 +2851,10 @@ var file_realworld_v1_realword_proto_rawDesc = []byte{
 	0x65, 0x70, 0x6c, 0x79, 0x12, 0x2f, 0x0a, 0x07, 0x61, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c,
 	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x52, 0x07, 0x61, 0x72,
-	0x74, 0x69, 0x63, 0x6c, 0x65, 0x22, 0x2e, 0x0a, 0x18, 0x55, 0x6e, 0x66, 0x61, 0x76, 0x6f, 0x72,
+	0x74, 0x69, 0x63, 0x6c, 0x65, 0x22, 0x2e, 0x0a, 0x18, 0x55, 0x6e, 0x46, 0x61, 0x76, 0x6f, 0x72,
 	0x69, 0x74, 0x65, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x6c, 0x75, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x73, 0x6c, 0x75, 0x67, 0x22, 0x49, 0x0a, 0x16, 0x55, 0x6e, 0x66, 0x61, 0x76, 0x6f, 0x72,
+	0x04, 0x73, 0x6c, 0x75, 0x67, 0x22, 0x49, 0x0a, 0x16, 0x55, 0x6e, 0x46, 0x61, 0x76, 0x6f, 0x72,
 	0x69, 0x74, 0x65, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12,
 	0x2f, 0x0a, 0x07, 0x61, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x15, 0x2e, 0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x76, 0x31, 0x2e,
@@ -2905,11 +2905,11 @@ var file_realworld_v1_realword_proto_rawDesc = []byte{
 	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x2f, 0x7b, 0x75,
 	0x73, 0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x2f, 0x66, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x3a,
 	0x01, 0x2a, 0x92, 0x41, 0x0b, 0x62, 0x09, 0x0a, 0x07, 0x0a, 0x03, 0x4a, 0x57, 0x54, 0x12, 0x00,
-	0x12, 0x89, 0x01, 0x0a, 0x0c, 0x55, 0x6e, 0x66, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65,
+	0x12, 0x89, 0x01, 0x0a, 0x0c, 0x55, 0x6e, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65,
 	0x72, 0x12, 0x21, 0x2e, 0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x76, 0x31,
-	0x2e, 0x55, 0x6e, 0x66, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71,
+	0x2e, 0x55, 0x6e, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1f, 0x2e, 0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c, 0x64,
-	0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x66, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65, 0x72,
+	0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x46, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x55, 0x73, 0x65, 0x72,
 	0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x35, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x21, 0x2a, 0x1f, 0x2f,
 	0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x2f, 0x7b, 0x75, 0x73,
 	0x65, 0x72, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x2f, 0x66, 0x6f, 0x6c, 0x6c, 0x6f, 0x77, 0x92, 0x41,
@@ -2995,11 +2995,11 @@ var file_realworld_v1_realword_proto_rawDesc = []byte{
 	0x1d, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x61, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x73, 0x2f, 0x7b,
 	0x73, 0x6c, 0x75, 0x67, 0x7d, 0x2f, 0x66, 0x61, 0x76, 0x6f, 0x72, 0x69, 0x74, 0x65, 0x3a, 0x01,
 	0x2a, 0x92, 0x41, 0x0b, 0x62, 0x09, 0x0a, 0x07, 0x0a, 0x03, 0x4a, 0x57, 0x54, 0x12, 0x00, 0x12,
-	0x96, 0x01, 0x0a, 0x11, 0x55, 0x6e, 0x66, 0x61, 0x76, 0x6f, 0x72, 0x69, 0x74, 0x65, 0x41, 0x72,
+	0x96, 0x01, 0x0a, 0x11, 0x55, 0x6e, 0x46, 0x61, 0x76, 0x6f, 0x72, 0x69, 0x74, 0x65, 0x41, 0x72,
 	0x74, 0x69, 0x63, 0x6c, 0x65, 0x12, 0x26, 0x2e, 0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c,
-	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x66, 0x61, 0x76, 0x6f, 0x72, 0x69, 0x74, 0x65, 0x41,
+	0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x46, 0x61, 0x76, 0x6f, 0x72, 0x69, 0x74, 0x65, 0x41,
 	0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e,
-	0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x66,
+	0x72, 0x65, 0x61, 0x6c, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x76, 0x31, 0x2e, 0x55, 0x6e, 0x46,
 	0x61, 0x76, 0x6f, 0x72, 0x69, 0x74, 0x65, 0x41, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x52, 0x65,
 	0x70, 0x6c, 0x79, 0x22, 0x33, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1f, 0x2a, 0x1d, 0x2f, 0x61, 0x70,
 	0x69, 0x2f, 0x61, 0x72, 0x74, 0x69, 0x63, 0x6c, 0x65, 0x73, 0x2f, 0x7b, 0x73, 0x6c, 0x75, 0x67,
@@ -3053,8 +3053,8 @@ var file_realworld_v1_realword_proto_goTypes = []interface{}{
 	(*GetProfileReply)(nil),              // 13: realworld.v1.GetProfileReply
 	(*FollowUserRequest)(nil),            // 14: realworld.v1.FollowUserRequest
 	(*FollowUserReply)(nil),              // 15: realworld.v1.FollowUserReply
-	(*UnfollowUserRequest)(nil),          // 16: realworld.v1.UnfollowUserRequest
-	(*UnfollowUserReply)(nil),            // 17: realworld.v1.UnfollowUserReply
+	(*UnFollowUserRequest)(nil),          // 16: realworld.v1.UnFollowUserRequest
+	(*UnFollowUserReply)(nil),            // 17: realworld.v1.UnFollowUserReply
 	(*ListArticlesRequest)(nil),          // 18: realworld.v1.ListArticlesRequest
 	(*ListArticlesReply)(nil),            // 19: realworld.v1.ListArticlesReply
 	(*FeedArticlesRequest)(nil),          // 20: realworld.v1.FeedArticlesRequest
@@ -3073,8 +3073,8 @@ var file_realworld_v1_realword_proto_goTypes = []interface{}{
 	(*DeleteCommentsRequest)(nil),        // 33: realworld.v1.DeleteCommentsRequest
 	(*FavoriteArticleRequest)(nil),       // 34: realworld.v1.FavoriteArticleRequest
 	(*FavoriteArticleReply)(nil),         // 35: realworld.v1.FavoriteArticleReply
-	(*UnfavoriteArticleRequest)(nil),     // 36: realworld.v1.UnfavoriteArticleRequest
-	(*UnfavoriteArticleReply)(nil),       // 37: realworld.v1.UnfavoriteArticleReply
+	(*UnFavoriteArticleRequest)(nil),     // 36: realworld.v1.UnFavoriteArticleRequest
+	(*UnFavoriteArticleReply)(nil),       // 37: realworld.v1.UnFavoriteArticleReply
 	(*GetTagsReply)(nil),                 // 38: realworld.v1.GetTagsReply
 	(*User_User)(nil),                    // 39: realworld.v1.User.User
 	(*Profile_Profile)(nil),              // 40: realworld.v1.Profile.Profile
@@ -3105,7 +3105,7 @@ var file_realworld_v1_realword_proto_depIdxs = []int32{
 	0,  // 14: realworld.v1.UpdateUserReply.user:type_name -> realworld.v1.User
 	1,  // 15: realworld.v1.GetProfileReply.profile:type_name -> realworld.v1.Profile
 	1,  // 16: realworld.v1.FollowUserReply.profile:type_name -> realworld.v1.Profile
-	1,  // 17: realworld.v1.UnfollowUserReply.profile:type_name -> realworld.v1.Profile
+	1,  // 17: realworld.v1.UnFollowUserReply.profile:type_name -> realworld.v1.Profile
 	3,  // 18: realworld.v1.ListArticlesReply.articles:type_name -> realworld.v1.Article
 	3,  // 19: realworld.v1.FeedArticlesReply.articles:type_name -> realworld.v1.Article
 	3,  // 20: realworld.v1.GetArticleReply.article:type_name -> realworld.v1.Article
@@ -3117,14 +3117,14 @@ var file_realworld_v1_realword_proto_depIdxs = []int32{
 	4,  // 26: realworld.v1.AddCommentsReply.comment:type_name -> realworld.v1.Comment
 	4,  // 27: realworld.v1.GetCommentsReply.comments:type_name -> realworld.v1.Comment
 	3,  // 28: realworld.v1.FavoriteArticleReply.article:type_name -> realworld.v1.Article
-	3,  // 29: realworld.v1.UnfavoriteArticleReply.article:type_name -> realworld.v1.Article
+	3,  // 29: realworld.v1.UnFavoriteArticleReply.article:type_name -> realworld.v1.Article
 	5,  // 30: realworld.v1.RealWorld.Login:input_type -> realworld.v1.LoginRequest
 	7,  // 31: realworld.v1.RealWorld.Registration:input_type -> realworld.v1.RegistrationRequest
 	48, // 32: realworld.v1.RealWorld.GetCurrentUser:input_type -> google.protobuf.Empty
 	10, // 33: realworld.v1.RealWorld.UpdateUser:input_type -> realworld.v1.UpdateUserRequest
 	12, // 34: realworld.v1.RealWorld.GetProfile:input_type -> realworld.v1.GetProfileRequest
 	14, // 35: realworld.v1.RealWorld.FollowUser:input_type -> realworld.v1.FollowUserRequest
-	16, // 36: realworld.v1.RealWorld.UnfollowUser:input_type -> realworld.v1.UnfollowUserRequest
+	16, // 36: realworld.v1.RealWorld.UnFollowUser:input_type -> realworld.v1.UnFollowUserRequest
 	18, // 37: realworld.v1.RealWorld.ListArticles:input_type -> realworld.v1.ListArticlesRequest
 	20, // 38: realworld.v1.RealWorld.FeedArticles:input_type -> realworld.v1.FeedArticlesRequest
 	22, // 39: realworld.v1.RealWorld.GetArticle:input_type -> realworld.v1.GetArticleRequest
@@ -3135,7 +3135,7 @@ var file_realworld_v1_realword_proto_depIdxs = []int32{
 	31, // 44: realworld.v1.RealWorld.GetComments:input_type -> realworld.v1.GetCommentsRequest
 	33, // 45: realworld.v1.RealWorld.DeleteComments:input_type -> realworld.v1.DeleteCommentsRequest
 	34, // 46: realworld.v1.RealWorld.FavoriteArticle:input_type -> realworld.v1.FavoriteArticleRequest
-	36, // 47: realworld.v1.RealWorld.UnfavoriteArticle:input_type -> realworld.v1.UnfavoriteArticleRequest
+	36, // 47: realworld.v1.RealWorld.UnFavoriteArticle:input_type -> realworld.v1.UnFavoriteArticleRequest
 	48, // 48: realworld.v1.RealWorld.GetTags:input_type -> google.protobuf.Empty
 	6,  // 49: realworld.v1.RealWorld.Login:output_type -> realworld.v1.LoginReply
 	8,  // 50: realworld.v1.RealWorld.Registration:output_type -> realworld.v1.RegistrationReply
@@ -3143,7 +3143,7 @@ var file_realworld_v1_realword_proto_depIdxs = []int32{
 	11, // 52: realworld.v1.RealWorld.UpdateUser:output_type -> realworld.v1.UpdateUserReply
 	13, // 53: realworld.v1.RealWorld.GetProfile:output_type -> realworld.v1.GetProfileReply
 	15, // 54: realworld.v1.RealWorld.FollowUser:output_type -> realworld.v1.FollowUserReply
-	17, // 55: realworld.v1.RealWorld.UnfollowUser:output_type -> realworld.v1.UnfollowUserReply
+	17, // 55: realworld.v1.RealWorld.UnFollowUser:output_type -> realworld.v1.UnFollowUserReply
 	19, // 56: realworld.v1.RealWorld.ListArticles:output_type -> realworld.v1.ListArticlesReply
 	21, // 57: realworld.v1.RealWorld.FeedArticles:output_type -> realworld.v1.FeedArticlesReply
 	23, // 58: realworld.v1.RealWorld.GetArticle:output_type -> realworld.v1.GetArticleReply
@@ -3154,7 +3154,7 @@ var file_realworld_v1_realword_proto_depIdxs = []int32{
 	32, // 63: realworld.v1.RealWorld.GetComments:output_type -> realworld.v1.GetCommentsReply
 	48, // 64: realworld.v1.RealWorld.DeleteComments:output_type -> google.protobuf.Empty
 	35, // 65: realworld.v1.RealWorld.FavoriteArticle:output_type -> realworld.v1.FavoriteArticleReply
-	37, // 66: realworld.v1.RealWorld.UnfavoriteArticle:output_type -> realworld.v1.UnfavoriteArticleReply
+	37, // 66: realworld.v1.RealWorld.UnFavoriteArticle:output_type -> realworld.v1.UnFavoriteArticleReply
 	38, // 67: realworld.v1.RealWorld.GetTags:output_type -> realworld.v1.GetTagsReply
 	49, // [49:68] is the sub-list for method output_type
 	30, // [30:49] is the sub-list for method input_type
@@ -3362,7 +3362,7 @@ func file_realworld_v1_realword_proto_init() {
 			}
 		}
 		file_realworld_v1_realword_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UnfollowUserRequest); i {
+			switch v := v.(*UnFollowUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3374,7 +3374,7 @@ func file_realworld_v1_realword_proto_init() {
 			}
 		}
 		file_realworld_v1_realword_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UnfollowUserReply); i {
+			switch v := v.(*UnFollowUserReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3602,7 +3602,7 @@ func file_realworld_v1_realword_proto_init() {
 			}
 		}
 		file_realworld_v1_realword_proto_msgTypes[36].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UnfavoriteArticleRequest); i {
+			switch v := v.(*UnFavoriteArticleRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -3614,7 +3614,7 @@ func file_realworld_v1_realword_proto_init() {
 			}
 		}
 		file_realworld_v1_realword_proto_msgTypes[37].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UnfavoriteArticleReply); i {
+			switch v := v.(*UnFavoriteArticleReply); i {
 			case 0:
 				return &v.state
 			case 1:

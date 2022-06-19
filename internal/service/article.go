@@ -184,9 +184,9 @@ func (s *RealWorldService) FavoriteArticle(ctx context.Context, in *pb.FavoriteA
 	return &pb.FavoriteArticleReply{}, nil
 }
 
-func (s *RealWorldService) UnfavoriteArticle(ctx context.Context, in *pb.UnfavoriteArticleRequest) (*pb.UnfavoriteArticleReply, error) {
+func (s *RealWorldService) UnFavoriteArticle(ctx context.Context, in *pb.UnFavoriteArticleRequest) (*pb.UnFavoriteArticleReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.UnfavoriteArticleReply{}, nil
+	return &pb.UnFavoriteArticleReply{}, nil
 }
 
 func (s *RealWorldService) GetTags(ctx context.Context, in *empty.Empty) (*pb.GetTagsReply, error) {

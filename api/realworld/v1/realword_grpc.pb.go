@@ -29,7 +29,7 @@ type RealWorldClient interface {
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserReply, error)
 	GetProfile(ctx context.Context, in *GetProfileRequest, opts ...grpc.CallOption) (*GetProfileReply, error)
 	FollowUser(ctx context.Context, in *FollowUserRequest, opts ...grpc.CallOption) (*FollowUserReply, error)
-	UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...grpc.CallOption) (*UnfollowUserReply, error)
+	UnFollowUser(ctx context.Context, in *UnFollowUserRequest, opts ...grpc.CallOption) (*UnFollowUserReply, error)
 	ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesReply, error)
 	FeedArticles(ctx context.Context, in *FeedArticlesRequest, opts ...grpc.CallOption) (*FeedArticlesReply, error)
 	GetArticle(ctx context.Context, in *GetArticleRequest, opts ...grpc.CallOption) (*GetArticleReply, error)
@@ -40,7 +40,7 @@ type RealWorldClient interface {
 	GetComments(ctx context.Context, in *GetCommentsRequest, opts ...grpc.CallOption) (*GetCommentsReply, error)
 	DeleteComments(ctx context.Context, in *DeleteCommentsRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	FavoriteArticle(ctx context.Context, in *FavoriteArticleRequest, opts ...grpc.CallOption) (*FavoriteArticleReply, error)
-	UnfavoriteArticle(ctx context.Context, in *UnfavoriteArticleRequest, opts ...grpc.CallOption) (*UnfavoriteArticleReply, error)
+	UnFavoriteArticle(ctx context.Context, in *UnFavoriteArticleRequest, opts ...grpc.CallOption) (*UnFavoriteArticleReply, error)
 	GetTags(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetTagsReply, error)
 }
 
@@ -106,9 +106,9 @@ func (c *realWorldClient) FollowUser(ctx context.Context, in *FollowUserRequest,
 	return out, nil
 }
 
-func (c *realWorldClient) UnfollowUser(ctx context.Context, in *UnfollowUserRequest, opts ...grpc.CallOption) (*UnfollowUserReply, error) {
-	out := new(UnfollowUserReply)
-	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/UnfollowUser", in, out, opts...)
+func (c *realWorldClient) UnFollowUser(ctx context.Context, in *UnFollowUserRequest, opts ...grpc.CallOption) (*UnFollowUserReply, error) {
+	out := new(UnFollowUserReply)
+	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/UnFollowUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -205,9 +205,9 @@ func (c *realWorldClient) FavoriteArticle(ctx context.Context, in *FavoriteArtic
 	return out, nil
 }
 
-func (c *realWorldClient) UnfavoriteArticle(ctx context.Context, in *UnfavoriteArticleRequest, opts ...grpc.CallOption) (*UnfavoriteArticleReply, error) {
-	out := new(UnfavoriteArticleReply)
-	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/UnfavoriteArticle", in, out, opts...)
+func (c *realWorldClient) UnFavoriteArticle(ctx context.Context, in *UnFavoriteArticleRequest, opts ...grpc.CallOption) (*UnFavoriteArticleReply, error) {
+	out := new(UnFavoriteArticleReply)
+	err := c.cc.Invoke(ctx, "/realworld.v1.RealWorld/UnFavoriteArticle", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -233,7 +233,7 @@ type RealWorldServer interface {
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserReply, error)
 	GetProfile(context.Context, *GetProfileRequest) (*GetProfileReply, error)
 	FollowUser(context.Context, *FollowUserRequest) (*FollowUserReply, error)
-	UnfollowUser(context.Context, *UnfollowUserRequest) (*UnfollowUserReply, error)
+	UnFollowUser(context.Context, *UnFollowUserRequest) (*UnFollowUserReply, error)
 	ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error)
 	FeedArticles(context.Context, *FeedArticlesRequest) (*FeedArticlesReply, error)
 	GetArticle(context.Context, *GetArticleRequest) (*GetArticleReply, error)
@@ -244,7 +244,7 @@ type RealWorldServer interface {
 	GetComments(context.Context, *GetCommentsRequest) (*GetCommentsReply, error)
 	DeleteComments(context.Context, *DeleteCommentsRequest) (*empty.Empty, error)
 	FavoriteArticle(context.Context, *FavoriteArticleRequest) (*FavoriteArticleReply, error)
-	UnfavoriteArticle(context.Context, *UnfavoriteArticleRequest) (*UnfavoriteArticleReply, error)
+	UnFavoriteArticle(context.Context, *UnFavoriteArticleRequest) (*UnFavoriteArticleReply, error)
 	GetTags(context.Context, *empty.Empty) (*GetTagsReply, error)
 	mustEmbedUnimplementedRealWorldServer()
 }
@@ -271,8 +271,8 @@ func (UnimplementedRealWorldServer) GetProfile(context.Context, *GetProfileReque
 func (UnimplementedRealWorldServer) FollowUser(context.Context, *FollowUserRequest) (*FollowUserReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FollowUser not implemented")
 }
-func (UnimplementedRealWorldServer) UnfollowUser(context.Context, *UnfollowUserRequest) (*UnfollowUserReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnfollowUser not implemented")
+func (UnimplementedRealWorldServer) UnFollowUser(context.Context, *UnFollowUserRequest) (*UnFollowUserReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnFollowUser not implemented")
 }
 func (UnimplementedRealWorldServer) ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArticles not implemented")
@@ -304,8 +304,8 @@ func (UnimplementedRealWorldServer) DeleteComments(context.Context, *DeleteComme
 func (UnimplementedRealWorldServer) FavoriteArticle(context.Context, *FavoriteArticleRequest) (*FavoriteArticleReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FavoriteArticle not implemented")
 }
-func (UnimplementedRealWorldServer) UnfavoriteArticle(context.Context, *UnfavoriteArticleRequest) (*UnfavoriteArticleReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UnfavoriteArticle not implemented")
+func (UnimplementedRealWorldServer) UnFavoriteArticle(context.Context, *UnFavoriteArticleRequest) (*UnFavoriteArticleReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UnFavoriteArticle not implemented")
 }
 func (UnimplementedRealWorldServer) GetTags(context.Context, *empty.Empty) (*GetTagsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTags not implemented")
@@ -431,20 +431,20 @@ func _RealWorld_FollowUser_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RealWorld_UnfollowUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnfollowUserRequest)
+func _RealWorld_UnFollowUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnFollowUserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RealWorldServer).UnfollowUser(ctx, in)
+		return srv.(RealWorldServer).UnFollowUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realworld.v1.RealWorld/UnfollowUser",
+		FullMethod: "/realworld.v1.RealWorld/UnFollowUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RealWorldServer).UnfollowUser(ctx, req.(*UnfollowUserRequest))
+		return srv.(RealWorldServer).UnFollowUser(ctx, req.(*UnFollowUserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -629,20 +629,20 @@ func _RealWorld_FavoriteArticle_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RealWorld_UnfavoriteArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UnfavoriteArticleRequest)
+func _RealWorld_UnFavoriteArticle_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UnFavoriteArticleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RealWorldServer).UnfavoriteArticle(ctx, in)
+		return srv.(RealWorldServer).UnFavoriteArticle(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/realworld.v1.RealWorld/UnfavoriteArticle",
+		FullMethod: "/realworld.v1.RealWorld/UnFavoriteArticle",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RealWorldServer).UnfavoriteArticle(ctx, req.(*UnfavoriteArticleRequest))
+		return srv.(RealWorldServer).UnFavoriteArticle(ctx, req.(*UnFavoriteArticleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -697,8 +697,8 @@ var RealWorld_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RealWorld_FollowUser_Handler,
 		},
 		{
-			MethodName: "UnfollowUser",
-			Handler:    _RealWorld_UnfollowUser_Handler,
+			MethodName: "UnFollowUser",
+			Handler:    _RealWorld_UnFollowUser_Handler,
 		},
 		{
 			MethodName: "ListArticles",
@@ -741,8 +741,8 @@ var RealWorld_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RealWorld_FavoriteArticle_Handler,
 		},
 		{
-			MethodName: "UnfavoriteArticle",
-			Handler:    _RealWorld_UnfavoriteArticle_Handler,
+			MethodName: "UnFavoriteArticle",
+			Handler:    _RealWorld_UnFavoriteArticle_Handler,
 		},
 		{
 			MethodName: "GetTags",

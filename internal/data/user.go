@@ -135,7 +135,7 @@ func (p profileRepo) FollowUser(ctx context.Context, followerID, followingID uin
 	return nil
 }
 
-func (p profileRepo) UnfollowUser(ctx context.Context, followerID, followingID uint) error {
+func (p profileRepo) UnFollowUser(ctx context.Context, followerID, followingID uint) error {
 	if err := p.data.db.Delete(&model.Follow{
 		FollowerID:  followerID,
 		FollowingID: followingID,

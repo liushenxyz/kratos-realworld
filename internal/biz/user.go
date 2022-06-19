@@ -38,7 +38,7 @@ type UserRepo interface {
 type ProfileRepo interface {
 	IsFollowing(ctx context.Context, followerID, followingID uint) (bool, error)
 	FollowUser(ctx context.Context, followerID, followingID uint) error
-	UnfollowUser(ctx context.Context, followerID, followingID uint) error
+	UnFollowUser(ctx context.Context, followerID, followingID uint) error
 }
 
 type UserUsecase struct {
@@ -138,13 +138,13 @@ func (uc *UserUsecase) FollowUser(ctx context.Context, username string) (*Profil
 	}, nil
 }
 
-func (uc *UserUsecase) UnfollowUser(ctx context.Context, username string) (*Profile, error) {
+func (uc *UserUsecase) UnFollowUser(ctx context.Context, username string) (*Profile, error) {
 	cu := auth.FromContext(ctx)
 	fu, err := uc.ur.GetUserByUsername(ctx, username)
 	if err != nil {
 		return nil, err
 	}
-	if err := uc.pr.UnfollowUser(ctx, cu.ID, fu.ID); err != nil {
+	if err := uc.pr.UnFollowUser(ctx, cu.ID, fu.ID); err != nil {
 		return nil, err
 	}
 	if err != nil {

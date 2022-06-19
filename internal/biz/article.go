@@ -51,7 +51,7 @@ type ArticleRepo interface {
 	ListArticle(ctx context.Context, limit, offset int) ([]*Article, int64, error)
 
 	FavoriteArticle(ctx context.Context, slug string) error
-	UnfavoriteArticle(ctx context.Context, slug string) error
+	UnFavoriteArticle(ctx context.Context, slug string) error
 }
 
 type CommentRepo interface {
@@ -124,7 +124,7 @@ func (ac *ArticleUsecase) FavoriteArticle(ctx context.Context, a *Article) (*Art
 	return nil, nil
 }
 
-func (ac *ArticleUsecase) UnfavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
+func (ac *ArticleUsecase) UnFavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
 	return nil, nil
 }
 
