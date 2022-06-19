@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	pb "realworld/api/realworld/v1"
@@ -10,7 +11,47 @@ import (
 
 func (s *RealWorldService) ListArticles(ctx context.Context, in *pb.ListArticlesRequest) (*pb.ListArticlesReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.ListArticlesReply{}, nil
+	tag := in.Tag
+	author := in.Author
+	favorited := in.Favorited
+	limit := int(in.Limit)
+	offset := int(in.Offset)
+	fmt.Printf("Tag = %v\n", tag)
+	//TODO Query.Tag
+	fmt.Printf("Author = %v\n", author)
+	//TODO Query.Author
+	fmt.Printf("Favorited = %v\n", favorited)
+	//TODO Query.Favorited
+	fmt.Printf("Limit = %v\n", limit)
+	fmt.Printf("Offset = %v\n", offset)
+	bizArticles, count, err := s.ac.ListArticles(ctx, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	var articles []*pb.Article
+	for _, bizArticle := range bizArticles {
+		articles = append(articles, &pb.Article{
+			Slug:           bizArticle.Slug,
+			Title:          bizArticle.Title,
+			Description:    bizArticle.Description,
+			Body:           bizArticle.Body,
+			TagList:        bizArticle.TagList,
+			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
+			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
+			Favorited:      bizArticle.Favorited,
+			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			Author: &pb.Author{
+				Username:  bizArticle.Author.Username,
+				Bio:       bizArticle.Author.Bio,
+				Image:     bizArticle.Author.Image,
+				Following: bizArticle.Author.Following,
+			},
+		})
+	}
+	return &pb.ListArticlesReply{
+		Articles:      articles,
+		ArticlesCount: uint64(count),
+	}, nil
 }
 
 func (s *RealWorldService) FeedArticles(ctx context.Context, in *pb.FeedArticlesRequest) (*pb.FeedArticlesReply, error) {
@@ -34,7 +75,7 @@ func (s *RealWorldService) GetArticle(ctx context.Context, in *pb.GetArticleRequ
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint32(bizArticle.FavoritesCount),
+			FavoritesCount: uint64(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -66,7 +107,7 @@ func (s *RealWorldService) CreateArticle(ctx context.Context, in *pb.CreateArtic
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint32(bizArticle.FavoritesCount),
+			FavoritesCount: uint64(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -103,7 +144,7 @@ func (s *RealWorldService) UpdateArticle(ctx context.Context, in *pb.UpdateArtic
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint32(bizArticle.FavoritesCount),
+			FavoritesCount: uint64(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,

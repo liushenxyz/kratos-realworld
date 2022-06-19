@@ -66,6 +66,7 @@ func (r *articleRepo) CreateArticle(ctx context.Context, bizArticle *biz.Article
 		Bio:       article.Author.Bio,
 		Image:     article.Author.Image,
 		Following: false,
+		//TODO Author.Following
 	}
 	return bizArticle, nil
 }
@@ -100,9 +101,10 @@ func (r *articleRepo) UpdateArticleBySlug(ctx context.Context, id uint, argsMap 
 		Bio:       article.Author.Bio,
 		Image:     article.Author.Image,
 		Following: false,
+		//TODO Author.Following
 	}
-	for i := range article.Tags {
-		bizArticle.TagList = append(bizArticle.TagList, article.Tags[i].Tag)
+	for _, t := range article.Tags {
+		bizArticle.TagList = append(bizArticle.TagList, t.Tag)
 	}
 	return &bizArticle, nil
 }
@@ -147,14 +149,73 @@ func (r *articleRepo) GetArticleBySlug(ctx context.Context, slug string) (*biz.A
 		Bio:       article.Author.Bio,
 		Image:     article.Author.Image,
 		Following: false,
+		//TODO Author.Following
 	}
-	for i := range article.Tags {
-		bizArticle.TagList = append(bizArticle.TagList, article.Tags[i].Tag)
+	for _, t := range article.Tags {
+		bizArticle.TagList = append(bizArticle.TagList, t.Tag)
 	}
 	return &bizArticle, nil
 }
 
-func (r *articleRepo) ListArticle(ctx context.Context) ([]*biz.Article, error) {
+func (r *articleRepo) ListArticle(ctx context.Context, limit, offset int) ([]*biz.Article, int64, error) {
+	var (
+		articles    []model.Article
+		count       int64
+		bizArticles []*biz.Article
+	)
+	r.data.db.Model(&articles).Count(&count)
+	r.data.db.Preload("Favorites").
+		Preload("Tags", func(db *gorm.DB) *gorm.DB {
+			return db.Order("tag asc")
+		}).
+		Preload("Author").
+		Limit(limit).
+		Offset(offset).
+		Order("created_at desc").Find(&articles)
+
+	for _, article := range articles {
+		bizArticle := new(biz.Article)
+		bizArticle.ID = article.ID
+		bizArticle.CreatedAt = article.CreatedAt
+		bizArticle.UpdatedAt = article.UpdatedAt
+		bizArticle.Slug = article.Slug
+		bizArticle.Title = article.Title
+		bizArticle.Description = article.Description
+		bizArticle.Body = article.Body
+		bizArticle.FavoritesCount = uint(len(article.Favorites))
+		cu := auth.FromContext(ctx)
+		for _, u := range article.Favorites {
+			if u.ID == cu.ID {
+				bizArticle.Favorited = true
+			}
+		}
+		bizArticle.Author = &biz.Profile{
+			Username:  article.Author.Username,
+			Bio:       article.Author.Bio,
+			Image:     article.Author.Image,
+			Following: false,
+			//TODO Author.Following
+			//bizArticle.Author.Following, _ = us.IsFollower(a.AuthorID, cu.ID)
+		}
+		for _, t := range article.Tags {
+			bizArticle.TagList = append(bizArticle.TagList, t.Tag)
+		}
+		bizArticles = append(bizArticles, bizArticle)
+	}
+	return bizArticles, count, nil
+}
+
+func (r *articleRepo) ListArticleByTag(ctx context.Context) ([]*biz.Article, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (r *articleRepo) ListArticleByAuthor(ctx context.Context) ([]*biz.Article, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (r *articleRepo) ListArticleByWhoFavorited(ctx context.Context) ([]*biz.Article, error) {
 	//TODO implement me
 	panic("implement me")
 }

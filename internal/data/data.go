@@ -1,6 +1,9 @@
 package data
 
 import (
+	"gorm.io/gorm/logger"
+	syslog "log"
+	"os"
 	"realworld/internal/conf"
 	"realworld/internal/data/model"
 	"time"
@@ -32,9 +35,20 @@ func NewData(c *conf.Data, logger log.Logger, db *gorm.DB) (*Data, func(), error
 }
 
 func NewDB(c *conf.Data) *gorm.DB {
+	newLogger := logger.New(
+		syslog.New(os.Stdout, "\r\n", syslog.LstdFlags), // io writer
+		logger.Config{
+			SlowThreshold:             time.Millisecond * 10, // Slow SQL threshold
+			LogLevel:                  logger.Info,           // Log level
+			IgnoreRecordNotFoundError: false,                 // Ignore ErrRecordNotFound error for logger
+			Colorful:                  true,                  // Disable color
+		},
+	)
+
 	dsn := c.Database.Source
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		DisableForeignKeyConstraintWhenMigrating: true,
+		Logger:                                   newLogger,
 	})
 	if err != nil {
 		panic("failed to connect database")

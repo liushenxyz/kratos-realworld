@@ -28,12 +28,12 @@ paths:
                   in: query
                   schema:
                     type: integer
-                    format: int64
+                    format: uint64
                 - name: offset
                   in: query
                   schema:
                     type: integer
-                    format: int64
+                    format: uint64
             responses:
                 "200":
                     description: OK
@@ -80,12 +80,12 @@ paths:
                   in: query
                   schema:
                     type: integer
-                    format: int64
+                    format: uint64
                 - name: offset
                   in: query
                   schema:
                     type: integer
-                    format: int64
+                    format: uint64
             responses:
                 "200":
                     description: OK
@@ -241,7 +241,7 @@ paths:
                   required: true
                   schema:
                     type: integer
-                    format: int64
+                    format: uint64
             responses:
                 "200":
                     description: OK
@@ -533,7 +533,7 @@ components:
                     type: boolean
                 favoritesCount:
                     type: integer
-                    format: uint32
+                    format: uint64
                 author:
                     $ref: '#/components/schemas/Author'
         Author:
@@ -552,7 +552,7 @@ components:
             properties:
                 id:
                     type: integer
-                    format: uint32
+                    format: uint64
                 createdAt:
                     type: string
                     format: date-time
@@ -605,7 +605,7 @@ components:
                         $ref: '#/components/schemas/Article'
                 articlesCount:
                     type: integer
-                    format: uint32
+                    format: uint64
         FollowUserReply:
             type: object
             properties:
@@ -662,7 +662,7 @@ components:
                         $ref: '#/components/schemas/Article'
                 articlesCount:
                     type: integer
-                    format: uint32
+                    format: uint64
         LoginReply:
             type: object
             properties:
