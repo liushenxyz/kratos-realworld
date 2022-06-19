@@ -17,11 +17,11 @@ func (s *RealWorldService) ListArticles(ctx context.Context, in *pb.ListArticles
 	limit := int(in.Limit)
 	offset := int(in.Offset)
 	fmt.Printf("Tag = %v\n", tag)
-	//TODO Query.Tag
+	// TODO Query.Tag
 	fmt.Printf("Author = %v\n", author)
-	//TODO Query.Author
+	// TODO Query.Author
 	fmt.Printf("Favorited = %v\n", favorited)
-	//TODO Query.Favorited
+	// TODO Query.Favorited
 	fmt.Printf("Limit = %v\n", limit)
 	fmt.Printf("Offset = %v\n", offset)
 	bizArticles, count, err := s.ac.ListArticles(ctx, limit, offset)
@@ -56,7 +56,36 @@ func (s *RealWorldService) ListArticles(ctx context.Context, in *pb.ListArticles
 
 func (s *RealWorldService) FeedArticles(ctx context.Context, in *pb.FeedArticlesRequest) (*pb.FeedArticlesReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.FeedArticlesReply{}, nil
+	limit := int(in.Limit)
+	offset := int(in.Offset)
+	bizArticles, count, err := s.ac.FeedArticles(ctx, limit, offset)
+	if err != nil {
+		return nil, err
+	}
+	var articles []*pb.Article
+	for _, bizArticle := range bizArticles {
+		articles = append(articles, &pb.Article{
+			Slug:           bizArticle.Slug,
+			Title:          bizArticle.Title,
+			Description:    bizArticle.Description,
+			Body:           bizArticle.Body,
+			TagList:        bizArticle.TagList,
+			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
+			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
+			Favorited:      bizArticle.Favorited,
+			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			Author: &pb.Author{
+				Username:  bizArticle.Author.Username,
+				Bio:       bizArticle.Author.Bio,
+				Image:     bizArticle.Author.Image,
+				Following: bizArticle.Author.Following,
+			},
+		})
+	}
+	return &pb.FeedArticlesReply{
+		Articles:      articles,
+		ArticlesCount: uint64(count),
+	}, nil
 }
 
 func (s *RealWorldService) GetArticle(ctx context.Context, in *pb.GetArticleRequest) (*pb.GetArticleReply, error) {

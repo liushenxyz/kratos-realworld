@@ -108,6 +108,56 @@ type profileRepo struct {
 	log  *log.Helper
 }
 
+func (p profileRepo) FollowingsList(ctx context.Context, followerID uint) ([]*biz.User, error) {
+	var (
+		u              model.User
+		followingsList []model.Follow
+		userList       []*biz.User
+	)
+	err := p.data.db.First(&u, followerID).Error
+	if err != nil {
+		return nil, err
+	}
+	if err := p.data.db.Model(&u).Preload("Following").Association("Followings").Find(&followingsList); err != nil {
+		return nil, err
+	}
+	for _, f := range followingsList {
+		userList = append(userList, &biz.User{
+			ID:       f.Following.ID,
+			Email:    f.Follower.Email,
+			Username: f.Follower.Username,
+			Bio:      f.Follower.Bio,
+			Image:    f.Follower.Image,
+		})
+	}
+	return userList, nil
+}
+
+func (p profileRepo) FollowersList(ctx context.Context, followingID uint) ([]*biz.User, error) {
+	var (
+		u             model.User
+		followersList []model.Follow
+		userList      []*biz.User
+	)
+	err := p.data.db.First(&u, followingID).Error
+	if err != nil {
+		return nil, err
+	}
+	if err := p.data.db.Model(&u).Preload("Follower").Association("Followers").Find(&followersList); err != nil {
+		return nil, err
+	}
+	for _, f := range followersList {
+		userList = append(userList, &biz.User{
+			ID:       f.Following.ID,
+			Email:    f.Following.Email,
+			Username: f.Following.Username,
+			Bio:      f.Following.Bio,
+			Image:    f.Following.Image,
+		})
+	}
+	return userList, nil
+}
+
 func (p profileRepo) IsFollowing(ctx context.Context, followerID, followingID uint) (bool, error) {
 	var m model.User
 	p.data.db.First(&m, followerID)

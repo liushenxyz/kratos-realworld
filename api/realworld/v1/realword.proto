@@ -116,14 +116,6 @@ service RealWorld {
     option (google.api.http) = {
       get: "/api/articles",
     };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      security: {
-        security_requirement: {
-          key: "JWT"
-          value: {}
-        }
-      }
-    };
   }
 
   rpc FeedArticles (FeedArticlesRequest) returns (FeedArticlesReply) {
@@ -208,14 +200,6 @@ service RealWorld {
   rpc GetComments (GetCommentsRequest) returns (GetCommentsReply) {
     option (google.api.http) = {
       get: "/api/articles/{slug}/comments",
-    };
-    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
-      security: {
-        security_requirement: {
-          key: "JWT"
-          value: {}
-        }
-      }
     };
   }
 

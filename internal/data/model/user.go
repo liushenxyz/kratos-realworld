@@ -1,6 +1,8 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
@@ -19,4 +21,28 @@ type Follow struct {
 	FollowerID  uint `gorm:"primaryKey" sql:"type:int not null"`
 	Following   User
 	FollowingID uint `gorm:"primaryKey" sql:"type:int not null"`
+}
+
+func (u *User) IsFollowing(id uint) bool {
+	if u.Followings == nil {
+		return false
+	}
+	for _, f := range u.Followings {
+		if f.FollowingID == id {
+			return true
+		}
+	}
+	return false
+}
+
+func (u *User) IsFollower(id uint) bool {
+	if u.Followers == nil {
+		return false
+	}
+	for _, f := range u.Followers {
+		if f.FollowerID == id {
+			return true
+		}
+	}
+	return false
 }

@@ -20,6 +20,8 @@ func NewSkipRoutersMatcher() selector.MatchFunc {
 		"/realworld.v1.RealWorld/Login":        {},
 		"/realworld.v1.RealWorld/Registration": {},
 		"/realworld.v1.RealWorld/GetArticle":   {},
+		"/realworld.v1.RealWorld/ListArticles": {},
+		"/realworld.v1.RealWorld/GetComments":  {},
 		"/realworld.v1.RealWorld/GetTags":      {},
 	}
 

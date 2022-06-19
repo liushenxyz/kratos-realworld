@@ -39,6 +39,8 @@ type ProfileRepo interface {
 	IsFollowing(ctx context.Context, followerID, followingID uint) (bool, error)
 	FollowUser(ctx context.Context, followerID, followingID uint) error
 	UnFollowUser(ctx context.Context, followerID, followingID uint) error
+	FollowingsList(ctx context.Context, followerID uint) ([]*User, error)
+	FollowersList(ctx context.Context, followingID uint) ([]*User, error)
 }
 
 type UserUsecase struct {
