@@ -258,14 +258,38 @@ func (r *articleRepo) ListArticle(ctx context.Context, limit, offset int, userID
 	return bizArticles, count, nil
 }
 
-func (r *articleRepo) FavoriteArticle(ctx context.Context, slug string) error {
-	// TODO implement me
-	panic("implement me")
+func (r *articleRepo) FavoriteArticle(ctx context.Context, userID uint, bizArticle *biz.Article) (*biz.Article, error) {
+	var (
+		article model.Article
+		user    model.User
+	)
+	article.ID = bizArticle.ID
+	user.ID = userID
+	err := r.data.db.Model(&article).Association("Favorites").Append(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	bizArticle.FavoritesCount = uint(len(article.Favorites))
+	bizArticle.Favorited = true
+	return bizArticle, nil
 }
 
-func (r *articleRepo) UnFavoriteArticle(ctx context.Context, slug string) error {
-	// TODO implement me
-	panic("implement me")
+func (r *articleRepo) UnFavoriteArticle(ctx context.Context, userID uint, bizArticle *biz.Article) (*biz.Article, error) {
+	var (
+		article model.Article
+		user    model.User
+	)
+	article.ID = bizArticle.ID
+	user.ID = userID
+	err := r.data.db.Model(&article).Association("Favorites").Delete(&user)
+	if err != nil {
+		return nil, err
+	}
+
+	bizArticle.FavoritesCount = uint(len(article.Favorites))
+	bizArticle.Favorited = false
+	return bizArticle, nil
 }
 
 type commentRepo struct {
@@ -273,24 +297,65 @@ type commentRepo struct {
 	log  *log.Helper
 }
 
-func (c commentRepo) CreateComment(ctx context.Context, comment *biz.Comment) (*biz.Comment, error) {
-	// TODO implement me
-	panic("implement me")
+func (c commentRepo) CreateComment(ctx context.Context, userID uint, bizComment *biz.Comment) (*biz.Comment, error) {
+	var comment model.Comment
+	comment.Body = bizComment.Body
+	comment.UserID = bizComment.AuthorID
+	comment.ArticleID = bizComment.ArticleID
+	err := c.data.db.Create(&comment).Error
+	if err != nil {
+		return nil, errors.InternalServer("comment", err.Error())
+	}
+	if err := c.data.db.Where(comment.ID).Preload("User").First(&comment).Error; err != nil {
+		return nil, errors.InternalServer("comment", err.Error())
+	}
+
+	bizComment.ID = comment.ID
+	bizComment.CreatedAt = comment.CreatedAt
+	bizComment.UpdatedAt = comment.UpdatedAt
+	bizComment.Body = comment.Body
+	bizComment.Author = &biz.Profile{
+		Username:  comment.User.Username,
+		Bio:       comment.User.Bio,
+		Image:     comment.User.Image,
+		Following: comment.User.IsFollower(userID),
+	}
+	return bizComment, nil
 }
 
 func (c commentRepo) DeleteComment(ctx context.Context, id uint) error {
-	// TODO implement me
-	panic("implement me")
+	err := c.data.db.Delete(&model.Comment{}, id).Error
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (c commentRepo) GetCommentByArticle(ctx context.Context, id uint) (*biz.Comment, error) {
-	// TODO implement me
-	panic("implement me")
-}
+func (c commentRepo) GetCommentByArticle(ctx context.Context, userID uint, bizArticle *biz.Article) ([]*biz.Comment, error) {
+	var (
+		comments    []*model.Comment
+		bizComments []*biz.Comment
+	)
+	err := c.data.db.Where("article_id = ?", bizArticle.ID).Preload("User").Find(&comments).Error
+	if err != nil {
+		return nil, err
+	}
 
-func (c commentRepo) ListComment(ctx context.Context, slug string) ([]*biz.Comment, error) {
-	// TODO implement me
-	panic("implement me")
+	for _, comment := range comments {
+		bizComment := new(biz.Comment)
+		bizComment.ID = comment.ID
+		bizComment.CreatedAt = comment.CreatedAt
+		bizComment.UpdatedAt = comment.UpdatedAt
+		bizComment.Body = comment.Body
+		bizComment.Author = &biz.Profile{
+			Username:  comment.User.Username,
+			Bio:       comment.User.Bio,
+			Image:     comment.User.Image,
+			Following: comment.User.IsFollower(userID),
+		}
+		bizComments = append(bizComments, bizComment)
+	}
+	return bizComments, nil
 }
 
 type tagRepo struct {
@@ -298,9 +363,19 @@ type tagRepo struct {
 	log  *log.Helper
 }
 
-func (t tagRepo) ListTag(ctx context.Context) ([]*biz.Tag, error) {
-	// TODO implement me
-	panic("implement me")
+func (t tagRepo) ListTag(ctx context.Context) ([]biz.Tag, error) {
+	var (
+		tags    []model.Tag
+		bizTags []biz.Tag
+	)
+	err := t.data.db.Find(&tags).Error
+	if err != nil {
+		return nil, err
+	}
+	for _, tag := range tags {
+		bizTags = append(bizTags, biz.Tag(tag.Tag))
+	}
+	return bizTags, nil
 }
 
 func NewArticleRepo(data *Data, logger log.Logger) biz.ArticleRepo {

@@ -190,35 +190,131 @@ func (s *RealWorldService) DeleteArticle(ctx context.Context, in *pb.DeleteArtic
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return &empty.Empty{}, nil
 }
 
 func (s *RealWorldService) AddComments(ctx context.Context, in *pb.AddCommentsRequest) (*pb.AddCommentsReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.AddCommentsReply{}, nil
+	bizComment, err := s.ac.AddComments(ctx, in.Slug, &biz.Comment{Body: in.Comment.Body})
+	if err != nil {
+		return nil, err
+	}
+	return &pb.AddCommentsReply{
+		Comment: &pb.Comment{
+			Id:        uint64(bizComment.ID),
+			CreatedAt: timestamppb.New(bizComment.CreatedAt),
+			UpdatedAt: timestamppb.New(bizComment.UpdatedAt),
+			Body:      bizComment.Body,
+			Author: &pb.Author{
+				Username:  bizComment.Author.Username,
+				Bio:       bizComment.Author.Bio,
+				Image:     bizComment.Author.Image,
+				Following: bizComment.Author.Following,
+			},
+		},
+	}, nil
 }
 
 func (s *RealWorldService) GetComments(ctx context.Context, in *pb.GetCommentsRequest) (*pb.GetCommentsReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.GetCommentsReply{}, nil
+	bizComments, err := s.ac.GetComments(ctx, in.Slug)
+	if err != nil {
+		return nil, err
+	}
+	var comments []*pb.Comment
+	for _, bizComment := range bizComments {
+		comments = append(comments, &pb.Comment{
+			Id:        uint64(bizComment.ID),
+			CreatedAt: timestamppb.New(bizComment.CreatedAt),
+			UpdatedAt: timestamppb.New(bizComment.UpdatedAt),
+			Body:      bizComment.Body,
+			Author: &pb.Author{
+				Username:  bizComment.Author.Username,
+				Bio:       bizComment.Author.Bio,
+				Image:     bizComment.Author.Image,
+				Following: bizComment.Author.Following,
+			},
+		})
+	}
+	return &pb.GetCommentsReply{
+		Comments: comments,
+	}, nil
 }
 
 func (s *RealWorldService) DeleteComments(ctx context.Context, in *pb.DeleteCommentsRequest) (*empty.Empty, error) {
 	s.log.Infof("input data %v", in)
-	return nil, nil
+	err := s.ac.DeleteComments(ctx, in.Slug, uint(in.Id))
+	if err != nil {
+		return nil, err
+	}
+	return &empty.Empty{}, nil
 }
 
 func (s *RealWorldService) FavoriteArticle(ctx context.Context, in *pb.FavoriteArticleRequest) (*pb.FavoriteArticleReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.FavoriteArticleReply{}, nil
+	bizArticle, err := s.ac.FavoriteArticle(ctx, in.Slug)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.FavoriteArticleReply{
+		Article: &pb.Article{
+			Slug:           bizArticle.Slug,
+			Title:          bizArticle.Title,
+			Description:    bizArticle.Description,
+			Body:           bizArticle.Body,
+			TagList:        bizArticle.TagList,
+			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
+			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
+			Favorited:      bizArticle.Favorited,
+			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			Author: &pb.Author{
+				Username:  bizArticle.Author.Username,
+				Bio:       bizArticle.Author.Bio,
+				Image:     bizArticle.Author.Image,
+				Following: bizArticle.Author.Following,
+			},
+		},
+	}, nil
 }
 
 func (s *RealWorldService) UnFavoriteArticle(ctx context.Context, in *pb.UnFavoriteArticleRequest) (*pb.UnFavoriteArticleReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.UnFavoriteArticleReply{}, nil
+	bizArticle, err := s.ac.UnFavoriteArticle(ctx, in.Slug)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.UnFavoriteArticleReply{
+		Article: &pb.Article{
+			Slug:           bizArticle.Slug,
+			Title:          bizArticle.Title,
+			Description:    bizArticle.Description,
+			Body:           bizArticle.Body,
+			TagList:        bizArticle.TagList,
+			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
+			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
+			Favorited:      bizArticle.Favorited,
+			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			Author: &pb.Author{
+				Username:  bizArticle.Author.Username,
+				Bio:       bizArticle.Author.Bio,
+				Image:     bizArticle.Author.Image,
+				Following: bizArticle.Author.Following,
+			},
+		},
+	}, nil
 }
 
 func (s *RealWorldService) GetTags(ctx context.Context, in *empty.Empty) (*pb.GetTagsReply, error) {
 	s.log.Infof("input data %v", in)
-	return &pb.GetTagsReply{}, nil
+	bizTags, err := s.ac.GetTags(ctx)
+	if err != nil {
+		return nil, err
+	}
+	var tags []string
+	for _, bizTag := range bizTags {
+		tags = append(tags, string(bizTag))
+	}
+	return &pb.GetTagsReply{
+		Tags: tags,
+	}, nil
 }

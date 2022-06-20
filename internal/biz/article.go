@@ -35,10 +35,11 @@ type Comment struct {
 
 	Body string
 
-	ArticleID uint
-	Author    *Profile
+	AuthorID uint
+	Author   *Profile
 
-	Article *Article
+	ArticleID uint
+	Article   *Article
 }
 
 type Tag string
@@ -51,19 +52,18 @@ type ArticleRepo interface {
 	ListArticle(ctx context.Context, limit, offset int, userID uint) ([]*Article, int64, error)
 	FeedArticles(ctx context.Context, limit, offset int, userID uint, userList []*User) ([]*Article, int64, error)
 
-	FavoriteArticle(ctx context.Context, slug string) error
-	UnFavoriteArticle(ctx context.Context, slug string) error
+	FavoriteArticle(ctx context.Context, userID uint, article *Article) (*Article, error)
+	UnFavoriteArticle(ctx context.Context, userID uint, article *Article) (*Article, error)
 }
 
 type CommentRepo interface {
-	CreateComment(ctx context.Context, comment *Comment) (*Comment, error)
+	CreateComment(ctx context.Context, userID uint, comment *Comment) (*Comment, error)
 	DeleteComment(ctx context.Context, id uint) error
-	GetCommentByArticle(ctx context.Context, id uint) (*Comment, error)
-	ListComment(ctx context.Context, slug string) ([]*Comment, error)
+	GetCommentByArticle(ctx context.Context, userID uint, article *Article) ([]*Comment, error)
 }
 
 type TagRepo interface {
-	ListTag(ctx context.Context) ([]*Tag, error)
+	ListTag(ctx context.Context) ([]Tag, error)
 }
 
 type ArticleUsecase struct {
@@ -157,26 +157,66 @@ func (ac *ArticleUsecase) FeedArticles(ctx context.Context, limit, offset int) (
 	return articles, count, nil
 }
 
-func (ac *ArticleUsecase) FavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
+func (ac *ArticleUsecase) FavoriteArticle(ctx context.Context, slug string) (*Article, error) {
+	cu := auth.FromContext(ctx)
+	article, err := ac.ar.GetArticleBySlug(ctx, cu.ID, slug)
+	if err != nil {
+		return nil, err
+	}
+	article, err = ac.ar.FavoriteArticle(ctx, cu.ID, article)
+	if err != nil {
+		return nil, err
+	}
+	return article, nil
 }
 
-func (ac *ArticleUsecase) UnFavoriteArticle(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
+func (ac *ArticleUsecase) UnFavoriteArticle(ctx context.Context, slug string) (*Article, error) {
+	cu := auth.FromContext(ctx)
+	article, err := ac.ar.GetArticleBySlug(ctx, cu.ID, slug)
+	if err != nil {
+		return nil, err
+	}
+	article, err = ac.ar.UnFavoriteArticle(ctx, cu.ID, article)
+	if err != nil {
+		return nil, err
+	}
+	return article, nil
 }
 
-func (ac *ArticleUsecase) AddComments(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
+func (ac *ArticleUsecase) AddComments(ctx context.Context, slug string, comment *Comment) (*Comment, error) {
+	cu := auth.FromContext(ctx)
+	userID := cu.ID
+	article, err := ac.ar.GetArticleBySlug(ctx, userID, slug)
+	if err != nil {
+		return nil, err
+	}
+	comment.ArticleID = article.ID
+	comment.AuthorID = userID
+	return ac.cr.CreateComment(ctx, userID, comment)
 }
 
-func (ac *ArticleUsecase) GetComments(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
+func (ac *ArticleUsecase) GetComments(ctx context.Context, slug string) ([]*Comment, error) {
+	var userID uint
+	cu := auth.FromContext(ctx)
+	if cu != nil {
+		userID = cu.ID
+	} else {
+		userID = 0
+	}
+	// TODO 无需认证, Author.Following字段如何计算
+	article, err := ac.ar.GetArticleBySlug(ctx, userID, slug)
+	if err != nil {
+		return nil, err
+	}
+	return ac.cr.GetCommentByArticle(ctx, userID, article)
 }
 
-func (ac *ArticleUsecase) DeleteComments(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
+func (ac *ArticleUsecase) DeleteComments(ctx context.Context, slug string, id uint) error {
+	// TODO 仅作者可删除
+
+	return ac.cr.DeleteComment(ctx, id)
 }
 
-func (ac *ArticleUsecase) GetTags(ctx context.Context, a *Article) (*Article, error) {
-	return nil, nil
+func (ac *ArticleUsecase) GetTags(ctx context.Context) ([]Tag, error) {
+	return ac.tr.ListTag(ctx)
 }
