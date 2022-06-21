@@ -36,6 +36,7 @@ func NewSkipRoutersMatcher() selector.MatchFunc {
 // NewHTTPServer new a HTTP server.
 func NewHTTPServer(confServer *conf.Server, confAuth *conf.Auth, realworld *service.RealWorldService, logger log.Logger) *http.Server {
 	var opts = []http.ServerOption{
+		http.ErrorEncoder(HttpErrorEncoder),
 		http.Middleware(
 			recovery.Recovery(),
 			selector.Server(auth.JWTAuth(confAuth.Secret, confAuth.Typ)).Match(NewSkipRoutersMatcher()).Build(),

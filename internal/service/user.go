@@ -14,13 +14,11 @@ func (s *RealWorldService) Login(ctx context.Context, in *pb.LoginRequest) (*pb.
 	}
 	return &pb.LoginReply{
 		User: &pb.User{
-			User: &pb.User_User{
-				Email:    u.Email,
-				Token:    u.Token,
-				Username: u.Username,
-				Bio:      u.Bio,
-				Image:    u.Image,
-			},
+			Email:    u.Email,
+			Token:    u.Token,
+			Username: u.Username,
+			Bio:      u.Bio,
+			Image:    u.Image,
 		},
 	}, nil
 }
@@ -33,13 +31,11 @@ func (s *RealWorldService) Registration(ctx context.Context, in *pb.Registration
 	}
 	return &pb.RegistrationReply{
 		User: &pb.User{
-			User: &pb.User_User{
-				Email:    u.Email,
-				Token:    u.Token,
-				Username: u.Username,
-				Bio:      u.Bio,
-				Image:    u.Image,
-			},
+			Email:    u.Email,
+			Token:    u.Token,
+			Username: u.Username,
+			Bio:      u.Bio,
+			Image:    u.Image,
 		},
 	}, nil
 }
@@ -52,13 +48,11 @@ func (s *RealWorldService) GetCurrentUser(ctx context.Context, in *empty.Empty) 
 	}
 	return &pb.GetCurrentUserReply{
 		User: &pb.User{
-			User: &pb.User_User{
-				Email:    u.Email,
-				Token:    u.Token,
-				Username: u.Username,
-				Bio:      u.Bio,
-				Image:    u.Image,
-			},
+			Email:    u.Email,
+			Token:    u.Token,
+			Username: u.Username,
+			Bio:      u.Bio,
+			Image:    u.Image,
 		},
 	}, nil
 }
@@ -87,13 +81,11 @@ func (s *RealWorldService) UpdateUser(ctx context.Context, in *pb.UpdateUserRequ
 	}
 	return &pb.UpdateUserReply{
 		User: &pb.User{
-			User: &pb.User_User{
-				Email:    u.Email,
-				Token:    u.Token,
-				Username: u.Username,
-				Bio:      u.Bio,
-				Image:    u.Image,
-			},
+			Email:    u.Email,
+			Token:    u.Token,
+			Username: u.Username,
+			Bio:      u.Bio,
+			Image:    u.Image,
 		},
 	}, nil
 }

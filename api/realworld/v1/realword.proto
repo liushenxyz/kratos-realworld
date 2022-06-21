@@ -257,14 +257,11 @@ service RealWorld {
 
 
 message User {
-  message User {
-    string email = 1;
-    string token = 2;
-    string username = 3;
-    string bio = 4;
-    string image = 5;
-  }
-  User user = 1;
+  string email = 1;
+  string token = 2;
+  string username = 3;
+  string bio = 4;
+  string image = 5;
 }
 
 message Profile {

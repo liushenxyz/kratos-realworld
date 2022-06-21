@@ -788,11 +788,6 @@ components:
         User:
             type: object
             properties:
-                user:
-                    $ref: '#/components/schemas/User_User'
-        User_User:
-            type: object
-            properties:
                 email:
                     type: string
                 token:
