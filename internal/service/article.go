@@ -39,7 +39,7 @@ func (s *RealWorldService) ListArticles(ctx context.Context, in *pb.ListArticles
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -50,7 +50,7 @@ func (s *RealWorldService) ListArticles(ctx context.Context, in *pb.ListArticles
 	}
 	return &pb.ListArticlesReply{
 		Articles:      articles,
-		ArticlesCount: uint64(count),
+		ArticlesCount: uint32(count),
 	}, nil
 }
 
@@ -73,7 +73,7 @@ func (s *RealWorldService) FeedArticles(ctx context.Context, in *pb.FeedArticles
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -84,7 +84,7 @@ func (s *RealWorldService) FeedArticles(ctx context.Context, in *pb.FeedArticles
 	}
 	return &pb.FeedArticlesReply{
 		Articles:      articles,
-		ArticlesCount: uint64(count),
+		ArticlesCount: uint32(count),
 	}, nil
 }
 
@@ -104,7 +104,7 @@ func (s *RealWorldService) GetArticle(ctx context.Context, in *pb.GetArticleRequ
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -136,7 +136,7 @@ func (s *RealWorldService) CreateArticle(ctx context.Context, in *pb.CreateArtic
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -173,7 +173,7 @@ func (s *RealWorldService) UpdateArticle(ctx context.Context, in *pb.UpdateArtic
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -201,7 +201,7 @@ func (s *RealWorldService) AddComments(ctx context.Context, in *pb.AddCommentsRe
 	}
 	return &pb.AddCommentsReply{
 		Comment: &pb.Comment{
-			Id:        uint64(bizComment.ID),
+			Id:        uint32(bizComment.ID),
 			CreatedAt: timestamppb.New(bizComment.CreatedAt),
 			UpdatedAt: timestamppb.New(bizComment.UpdatedAt),
 			Body:      bizComment.Body,
@@ -224,7 +224,7 @@ func (s *RealWorldService) GetComments(ctx context.Context, in *pb.GetCommentsRe
 	var comments []*pb.Comment
 	for _, bizComment := range bizComments {
 		comments = append(comments, &pb.Comment{
-			Id:        uint64(bizComment.ID),
+			Id:        uint32(bizComment.ID),
 			CreatedAt: timestamppb.New(bizComment.CreatedAt),
 			UpdatedAt: timestamppb.New(bizComment.UpdatedAt),
 			Body:      bizComment.Body,
@@ -266,7 +266,7 @@ func (s *RealWorldService) FavoriteArticle(ctx context.Context, in *pb.FavoriteA
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,
@@ -293,7 +293,7 @@ func (s *RealWorldService) UnFavoriteArticle(ctx context.Context, in *pb.UnFavor
 			CreatedAt:      timestamppb.New(bizArticle.CreatedAt),
 			UpdatedAt:      timestamppb.New(bizArticle.UpdatedAt),
 			Favorited:      bizArticle.Favorited,
-			FavoritesCount: uint64(bizArticle.FavoritesCount),
+			FavoritesCount: uint32(bizArticle.FavoritesCount),
 			Author: &pb.Author{
 				Username:  bizArticle.Author.Username,
 				Bio:       bizArticle.Author.Bio,

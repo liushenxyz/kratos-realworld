@@ -290,12 +290,12 @@ message Article {
   google.protobuf.Timestamp createdAt = 6;
   google.protobuf.Timestamp updatedAt = 7;
   bool favorited = 8;
-  uint64 favoritesCount = 9;
+  uint32 favoritesCount = 9;
   Author author = 10;
 }
 
 message Comment {
-  uint64 id = 1;
+  uint32 id = 1;
   google.protobuf.Timestamp createdAt = 2;
   google.protobuf.Timestamp updatedAt = 3;
   string body = 4;
@@ -382,24 +382,24 @@ message ListArticlesRequest {
   string tag = 1;
   string author = 2;
   string favorited = 3;
-  uint64 limit = 4;
-  uint64 offset = 5;
+  uint32 limit = 4;
+  uint32 offset = 5;
 }
 
 message ListArticlesReply {
   repeated Article articles = 1;
-  uint64 articlesCount = 2;
+  uint32 articlesCount = 2;
 }
 
 
 message FeedArticlesRequest {
-  uint64 limit = 1;
-  uint64 offset = 2;
+  uint32 limit = 1;
+  uint32 offset = 2;
 }
 
 message FeedArticlesReply {
   repeated Article articles = 1;
-  uint64 articlesCount = 2;
+  uint32 articlesCount = 2;
 }
 
 
@@ -471,7 +471,7 @@ message GetCommentsReply {
 
 message DeleteCommentsRequest {
   string slug = 1;
-  uint64 id = 2;
+  uint32 id = 2;
 }
 
 
